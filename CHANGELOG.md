@@ -2,6 +2,15 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [0.1.5] - 2026-05-11
+
+### Changed
+
+- Se refactorizaron todos los formularios de configuración (`Tabata`, `EMOM`, `AMRAP`, `ForTime`, `Pace`, `Custom`) para utilizar componentes de UI reutilizables.
+- Implementación de `DynamicList` y `ListItem` para gestionar de forma genérica la adición, eliminación y renderizado de ejercicios e intervalos.
+- Unificación de los selectores en un único componente `Stepper` con variantes de layout (full/compact) y estilos (normal/highlighted).
+- Transición de listas planas a un sistema de tarjetas (Cards) en formularios complejos para clarificar la relación entre ejercicios y sus parámetros.
+
 ## [0.1.4] - 2026-05-11
 
 ### Added
