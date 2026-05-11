@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
-import { TrainingMode } from '../types';
 import TabataForm from './forms/TabataForm';
-import EmomForm from './forms/EmomForm';
+import EmomForm from './forms/EmomForm'; 
+import { TrainingMode, TabataSettings, EmomSettings } from '../types';
 
 interface ConfigViewProps {
   mode: TrainingMode;
@@ -13,10 +13,9 @@ export default function ConfigView({ mode, onStart }: ConfigViewProps) {
   const { t } = useLanguage();
   const modeName = t.home.modes[mode] || mode.toUpperCase();
   
-  // Aquí guardaremos la configuración sea cual sea el modo
-  const [currentConfig, setCurrentConfig] = useState<any>(null);
 
-  // El "Switch" que decide qué formulario mostrar
+  const [currentConfig, setCurrentConfig] = useState<TabataSettings | EmomSettings | any>(null);
+
   const renderForm = () => {
     switch (mode) {
       case 'tabata':

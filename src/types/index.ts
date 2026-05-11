@@ -11,11 +11,16 @@ export interface MenuButtonProps {
   onClick: () => void;
 }
 
+export interface Exercise {
+  name: string;
+  unilateral: boolean;
+}
+
 export interface TabataCycle {
   workTime: number;
   restTime: number;
   rounds: number;
-  exercises: string[];
+  exercises: Exercise[];
   unilateralMode: boolean;
   activeRest: string; 
 }
@@ -27,3 +32,9 @@ export interface TabataSettings {
   cycleConfigs: TabataCycle[]; 
 }
 
+export interface EmomSettings {
+  preparationTime: number;
+  workWindow: number;
+  rounds: number;  
+  exercises: Exercise[];
+}

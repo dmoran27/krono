@@ -35,5 +35,9 @@ export interface Translations {
     cycles: string;
     cycleRest: string;
     unilateralMode: string;
+    every: string;
+    roundsTotal: string;
+    alternatingExercises: string;
+    unilateralToggle: string
   };
 }

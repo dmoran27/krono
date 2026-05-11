@@ -14,9 +14,9 @@ export default function TabataForm({ onChange }: Props) {
   const [cycles, setCycles] = useState(1);
   const [cycleRestTime, setCycleRestTime] = useState(60);
 
-  // Configuración por Ciclos 
+  // Configuración por Ciclos
   const [cycleConfigs, setCycleConfigs] = useState<TabataCycle[]>([
-    { workTime: 20, restTime: 10, rounds: 8, exercises: [''], unilateralMode: false, activeRest: '' }
+    { workTime: 20, restTime: 10, rounds: 8, exercises: [{ name: '', unilateral: false }], activeRest: '' }
   ]);
 
   useEffect(() => {
@@ -25,8 +25,7 @@ export default function TabataForm({ onChange }: Props) {
       if (cycles > newConfigs.length) {
         const lastCycle = newConfigs[newConfigs.length - 1];
         for (let i = newConfigs.length; i < cycles; i++) {
-          // Copiamos la config del último ciclo, pero reseteamos los ejercicios
-          newConfigs.push({ ...lastCycle, exercises: [''] });
+          newConfigs.push({ ...lastCycle, exercises: [{ name: '', unilateral: false }] });
         }
       } else if (cycles < newConfigs.length) {
         newConfigs.length = cycles;
@@ -47,18 +46,26 @@ export default function TabataForm({ onChange }: Props) {
     setCycleConfigs(newConfigs);
   };
 
+  // Manejo de Ejercicios Individuales
   const addExercise = (cycleIndex: number) => {
     const newConfigs = [...cycleConfigs];
-    newConfigs[cycleIndex].exercises.push('');
+    newConfigs[cycleIndex].exercises.push({ name: '', unilateral: false });
     setCycleConfigs(newConfigs);
   };
 
-  const updateExercise = (cycleIndex: number, exIndex: number, val: string) => {
+  const updateExerciseName = (cycleIndex: number, exIndex: number, val: string) => {
     const newConfigs = [...cycleConfigs];
-    newConfigs[cycleIndex].exercises[exIndex] = val;
+    newConfigs[cycleIndex].exercises[exIndex].name = val;
     setCycleConfigs(newConfigs);
   };
 
+  const toggleUnilateral = (cycleIndex: number, exIndex: number) => {
+    const newConfigs = [...cycleConfigs];
+    newConfigs[cycleIndex].exercises[exIndex].unilateral = !newConfigs[cycleIndex].exercises[exIndex].unilateral;
+    setCycleConfigs(newConfigs);
+  };
+
+  // UI Components
   const LargeControl = ({ label, value, setter, step = 1, min = 0, suffix = '' }: any) => (
     <div className="flex flex-col items-center justify-center space-y-4 py-8 border-2 border-primary/20 bg-background">
       <span className="font-label-caps tracking-widest text-primary/60">{label}</span>
@@ -92,6 +99,7 @@ export default function TabataForm({ onChange }: Props) {
   return (
     <div className="flex flex-col gap-section-gap w-full">
       
+      {/* SECCIÓN GLOBAL */}
       <section className="space-y-gutter">
         <LargeControl label={t.config.preparationTime} value={preparationTime} setter={setPreparationTime} step={5} suffix="s" />
         
@@ -136,7 +144,7 @@ export default function TabataForm({ onChange }: Props) {
                 <CompactControl label={t.config.rounds} value={cycle.rounds} setter={(val: number) => updateCycleField(cycleIndex, 'rounds', val)} step={1} min={1} />
               </div>
 
-              {/* Descanso Activo  */}
+              {/* Descanso Activo */}
               <div className="space-y-2 border-2 border-primary/20 p-3 bg-background focus-within:border-primary/60 transition-colors">
                 <span className="font-label-caps text-[10px] tracking-widest text-primary/60 flex items-center gap-2">
                   <span className="material-symbols-outlined text-[14px]">pause_circle</span>
@@ -151,30 +159,38 @@ export default function TabataForm({ onChange }: Props) {
                 />
               </div>
 
-              {/* Toggle Unilateral */}
-              <button 
-                onClick={() => updateCycleField(cycleIndex, 'unilateralMode', !cycle.unilateralMode)}
-                className={`w-full flex items-center justify-between border-2 p-gutter group active:bg-primary active:text-background transition-none ${cycle.unilateralMode ? 'border-primary bg-primary/5' : 'border-primary/40'}`}
-              >
-                <span className="font-label-caps tracking-widest">{t.config.unilateralMode}</span>
-                <div className={`w-12 h-6 border-2 flex items-center p-1 ${cycle.unilateralMode ? 'border-primary' : 'border-primary/40 group-active:border-background'}`}>
-                  <div className={`w-4 h-full transition-transform ${cycle.unilateralMode ? 'bg-primary translate-x-5' : 'bg-primary/40 group-active:bg-background'}`}></div>
-                </div>
-              </button>
-
               {/* Secuencia de Ejercicios */}
               <div className="space-y-4">
                 <span className="font-label-caps tracking-widest text-primary/60">{t.config.exercisesSequence}</span>
                 <div className="space-y-2">
                   {cycle.exercises.map((exercise, exIndex) => (
                     <div key={exIndex} className="border-b-2 border-primary/40 flex items-center justify-between py-2 focus-within:border-primary transition-colors">
+                      
+                      {/* Número */}
+                      <span className="font-label-caps text-primary/40 mr-2 w-4 text-center">
+                        {exIndex + 1}
+                      </span>
+
+                      {/* Input Texto */}
                       <input 
                         type="text" 
-                        value={exercise} 
-                        onChange={(e) => updateExercise(cycleIndex, exIndex, e.target.value)}
+                        value={exercise.name} 
+                        onChange={(e) => updateExerciseName(cycleIndex, exIndex, e.target.value)}
                         placeholder={cycles > 1 ? `EJ: INTERVAL ${cycleIndex + 1} MOVE` : 'EJ: SQUATS'}
-                        className="bg-transparent border-none font-headline-md text-lg text-primary placeholder:text-primary/20 uppercase outline-none w-full focus:ring-0 p-0"
+                        className="bg-transparent border-none font-headline-md text-lg text-primary placeholder:text-primary/20 uppercase outline-none w-full focus:ring-0 p-0 ml-2"
                       />
+
+                      {/* Botón [ L/R ] por ejercicio */}
+                      <button 
+                        onClick={() => toggleUnilateral(cycleIndex, exIndex)}
+                        title={t.config.unilateralMode}
+                        className={`flex items-center justify-center px-2 py-1 border transition-colors ml-2 mr-2 active:scale-90 ${
+                          exercise.unilateral ? 'border-primary text-primary bg-primary/10' : 'border-primary/20 text-primary/40'
+                        }`}
+                      >
+                        <span className="font-label-caps text-[10px] tracking-widest">{t.config.unilateralToggle}</span>
+                      </button>
+
                       <span className="material-symbols-outlined text-primary/40">drag_handle</span>
                     </div>
                   ))}

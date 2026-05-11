@@ -44,5 +44,9 @@ export const es: Translations = {
     cycles: "CICLOS (TABATAS)",
     cycleRest: "DESCANSO ENTRE CICLOS",
     unilateralMode: "MODO UNILATERAL (ALTERNAR LADOS)",
+    every: "CADA (VENTANA)",
+    roundsTotal: "RONDAS TOTALES",
+    alternatingExercises: "SECUENCIA (ALTERNADA POR RONDA)",
+    unilateralToggle: "I/D"
   }
 };

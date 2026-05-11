@@ -2,6 +2,14 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [0.1.2] - 2026-05-11
+
+### Added
+- Formulario EMOM (`EmomForm`), Soporte completo para entrenamientos "Every Minute on the Minute", incluyendo configuración de ventanas de trabajo, rondas totales y secuencia de ejercicios alternados.
+
+### Changed
+- Refactorización del Modo Unilateral (Tabata y EMOM), Se eliminó el botón global por intervalo/ronda. Ahora el modo alternado (Izquierda/Derecha) se configura a nivel de *ejercicio individual* a través del nuevo botón toggle `[ I/D ]` / `[ L/R ]`, permitiendo mezclar movimientos estáticos y unilaterales en la misma secuencia sin errores lógicos en el motor de voz.
+
 ## [0.1.1] - 2026-05-11
 
 ### Added
