@@ -2,6 +2,13 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [0.1.3] - 2026-05-11
+
+### Added
+- Formulario AMRAP (`AmrapForm`): Implementación minimalista enfocada exclusivamente en el tiempo límite (Time Cap).
+- Formulario For Time (`ForTimeForm`): Configuración de cronómetro con límite de seguridad ajustable.
+- Visualización de Unidades: Se añadió el sufijo "m" a los contadores de minutos para mejorar la claridad de la interfaz.
+
 ## [0.1.2] - 2026-05-11
 
 ### Added

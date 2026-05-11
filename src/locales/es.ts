@@ -47,6 +47,6 @@ export const es: Translations = {
     every: "CADA (VENTANA)",
     roundsTotal: "RONDAS TOTALES",
     alternatingExercises: "SECUENCIA (ALTERNADA POR RONDA)",
-    unilateralToggle: "I/D"
+    unilateralToggle: "I/D",
   }
 };

@@ -38,3 +38,13 @@ export interface EmomSettings {
   rounds: number;  
   exercises: Exercise[];
 }
+
+export interface AmrapSettings {
+  preparationTime: number; 
+  timeCap: number;
+}
+
+export interface ForTimeSettings {
+  preparationTime: number; 
+  timeCap: number;         
+}
