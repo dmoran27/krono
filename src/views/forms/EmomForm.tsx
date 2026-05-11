@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { EmomSettings, EmomExercise } from '../../types';
+import { EmomSettings, Exercise } from '../../types';
 
 interface Props {
   onChange: (settings: EmomSettings) => void;
@@ -15,7 +15,7 @@ export default function EmomForm({ onChange }: Props) {
   const [rounds, setRounds] = useState(10);
   
   // Ahora exercises es un array de objetos
-  const [exercises, setExercises] = useState<EmomExercise[]>([
+  const [exercises, setExercises] = useState<Exercise[]>([
     { name: '', unilateral: false }
   ]);
 

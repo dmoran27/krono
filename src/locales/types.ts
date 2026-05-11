@@ -38,6 +38,11 @@ export interface Translations {
     every: string;
     roundsTotal: string;
     alternatingExercises: string;
-    unilateralToggle: string
+    unilateralToggle: string;
+    reps: string;
+    pace: string;
+    addInterval: string;
+    work: string;
+    rest: string;
   };
 }

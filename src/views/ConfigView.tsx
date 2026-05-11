@@ -4,7 +4,9 @@ import TabataForm from './forms/TabataForm';
 import EmomForm from './forms/EmomForm'; 
 import AmrapForm from './forms/AmrapForm';
 import ForTimeForm from './forms/ForTimeForm';
-import { TrainingMode, TabataSettings, EmomSettings, AmrapSettings, ForTimeSettings} from '../types';
+import PaceForm from './forms/PaceForm';
+import CustomForm from './forms/CustomForm';
+import { TrainingMode, TabataSettings, EmomSettings, AmrapSettings, ForTimeSettings, PaceSettings, CustomSettings} from '../types';
 
 interface ConfigViewProps {
   mode: TrainingMode;
@@ -16,7 +18,7 @@ export default function ConfigView({ mode, onStart }: ConfigViewProps) {
   const modeName = t.home.modes[mode] || mode.toUpperCase();
   
 
-  const [currentConfig, setCurrentConfig] = useState<TabataSettings | EmomSettings | AmrapSettings | ForTimeSettings| any>(null);
+  const [currentConfig, setCurrentConfig] = useState<TabataSettings | EmomSettings | AmrapSettings | ForTimeSettings | PaceSettings | CustomSettings | any>(null);
 
   const renderForm = () => {
     switch (mode) {
@@ -28,6 +30,10 @@ export default function ConfigView({ mode, onStart }: ConfigViewProps) {
         return <AmrapForm onChange={setCurrentConfig} />;
       case 'fortime':
         return <ForTimeForm onChange={setCurrentConfig} />;
+      case 'pacer': 
+        return <PaceForm onChange={setCurrentConfig} />;
+      case 'custom': 
+        return <CustomForm onChange={setCurrentConfig} />;
       default:
         return <p className="text-on-surface-variant font-label-caps mt-8">Configuración para {modeName} en desarrollo...</p>;
     }

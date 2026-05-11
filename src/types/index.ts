@@ -48,3 +48,31 @@ export interface ForTimeSettings {
   preparationTime: number; 
   timeCap: number;         
 }
+
+
+export interface PaceExercise {
+  name: string;
+  reps: number;
+  timePerRep: number; // Segundos que dura CADA repetición
+  unilateral: boolean;
+}
+
+export interface PaceSettings {
+  preparationTime: number;
+  exercises: PaceExercise[];
+}
+
+export type CustomIntervalType = 'work' | 'rest';
+
+export interface CustomInterval {
+  name: string;
+  duration: number; // en segundos
+  type: CustomIntervalType;
+  unilateral: boolean;
+}
+
+export interface CustomSettings {
+  preparationTime: number;
+  rounds: number; // Cantidad de veces que se repite la secuencia completa
+  intervals: CustomInterval[];
+}

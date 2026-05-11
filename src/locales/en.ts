@@ -48,5 +48,10 @@ export const en: Translations = {
     roundsTotal: "TOTAL ROUNDS",
     alternatingExercises: "SEQUENCE (ALTERNATING PER ROUND)",
     unilateralToggle: "L/R",
+    reps: "REPS",
+    pace: "PACE (SEC/REP)",
+    addInterval: "ADD INTERVAL",
+    work: "WORK",
+    rest: "REST",
   }
 };

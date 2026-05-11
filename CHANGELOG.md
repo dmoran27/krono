@@ -2,6 +2,12 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [0.1.4] - 2026-05-11
+
+### Added
+- Formulario de Ritmo (`PaceForm`) Nuevo modo para controlar el tempo de ejecución, permitiendo configurar repeticiones y segundos por repetición.
+- Formulario Personalizado (`CustomForm`) Implementación de intervalos asimétricos que permite al usuario crear secuencias únicas de trabajo y descanso con duraciones independientes.
+
 ## [0.1.3] - 2026-05-11
 
 ### Added
