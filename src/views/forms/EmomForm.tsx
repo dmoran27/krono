@@ -6,19 +6,20 @@ import { EmomSettings, Exercise } from '../../types';
 import Stepper from '../../components/ui/Stepper';
 import DynamicList from '../../components/ui/DynamicList';
 import ListItem from '../../components/ui/ListItem';
-import UnilateralToggle from '../../components/ui/UnilateralToggle';
+import RowActionGroup from '../../components/ui/RowActionGroup';
 
 interface Props {
   onChange: (settings: EmomSettings) => void;
+  initialData?: EmomSettings;
 }
 
-export default function EmomForm({ onChange }: Props) {
+export default function EmomForm({ onChange, initialData }: Props) {
   const { t } = useLanguage();
   
-  const [preparationTime, setPreparationTime] = useState(10);
+  const [preparationTime, setPreparationTime] = useState(initialData?.preparationTime ?? 10);
   const [workWindow, setWorkWindow] = useState(60); 
-  const [rounds, setRounds] = useState(10);
-  const [exercises, setExercises] = useState<Exercise[]>([{ name: '', unilateral: false }]);
+  const [rounds, setRounds] = useState(initialData?.rounds ?? 10);
+  const [exercises, setExercises] = useState<Exercise[]>(initialData?.exercises ??[{ name: '', unilateral: false }]);
 
   useEffect(() => {
     onChange({ preparationTime, workWindow, rounds, exercises });
@@ -50,48 +51,51 @@ export default function EmomForm({ onChange }: Props) {
       
       {/* SECCIÓN GLOBAL */}
       <section className="space-y-gutter">
-        <Stepper label={t.config.preparationTime} value={preparationTime} onChange={setPreparationTime} step={5} suffix="s" />
-        <div className="grid grid-cols-2 gap-px border-2 border-primary bg-primary">
-          <Stepper label={t.config.every} value={workWindow} onChange={setWorkWindow} step={10} min={10} suffix="s" layout="compact" />
-          <Stepper label={t.config.roundsTotal} value={rounds.toString().padStart(2, '0')} onChange={setRounds} min={1} layout="compact" />
+        <div className="w-full">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-md mb-stack-lg">
+            <div className="m-1">
+              <Stepper label={t.config.preparationTime} value={preparationTime} onChange={setPreparationTime} step={5} suffix="s" layout="compact" icon="timer" />          
+            </div>
+            <div className="m-1">
+              <Stepper label={t.config.roundsTotal} value={rounds.toString().padStart(2, '0')} onChange={setRounds} min={1} layout="compact" icon="cycle" />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* SECCIÓN DE EJERCICIOS */}
-      <section className="space-y-8">
-        <DynamicList 
-          title={t.config.alternatingExercises}
-          items={exercises}
-          onAdd={addExercise}
-          addText={t.config.addExercise}
-          renderItem={(exercise, index) => (
-            
-            // Usamos nuestro nuevo Wrapper de fila
-            <ListItem 
-              key={index} 
-              index={index} 
-              onRemove={() => removeExercise(index)}
-              disableRemove={exercises.length === 1} // No dejamos borrar si solo queda 1
-            >
-              
-              {/* Solo metemos lo que varía en el centro */}
-              <input 
-                type="text" 
-                value={exercise.name} 
-                onChange={(e) => updateExerciseName(index, e.target.value)}
-                placeholder={`EJ: MIN ${index + 1}`}
-                className="bg-transparent border-none font-headline-md text-lg text-primary placeholder:text-primary/20 uppercase outline-none w-full focus:ring-0 p-0 ml-2"
-              />
-              
-              <UnilateralToggle 
-                active={exercise.unilateral} 
-                onToggle={() => toggleUnilateral(index)} 
-              />
-              
-            </ListItem>
-          )}
-        />
-      </section>
+      <div className="mt-stack-lg">
+          <DynamicList 
+            title={t.config.exercisesSequence}
+            items={exercises}
+            onAdd={addExercise}
+            addText={t.config.addExercise}
+            renderItem={(exercise, exIndex) => (
+              <ListItem 
+                key={exIndex} 
+                index={exIndex} 
+                className="rounded-lg bg-surface border border-outline/20 m-2 p-stack-md mb-stack-sm flex items-center gap-4"
+              >
+                 <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between w-full">                
+                  <input 
+                    type="text" 
+                    value={exercise.name} 
+                    onChange={(e) => updateExerciseName(exIndex, e.target.value)}
+                    placeholder="EJ: SQUATS"
+                    className="bg-transparent border-none font-title-lg text-title-lg text-on-surface placeholder:text-surface-variant uppercase outline-none w-full focus:ring-0 p-0"
+                  />
+                  
+                  <RowActionGroup 
+                    active={exercise.unilateral} 
+                    onToggle={() => toggleUnilateral(exIndex)} 
+                    onRemove={() => removeExercise(exIndex)}
+                    disableRemove={exercises.length === 1}
+                  />
+                  </div>
+              </ListItem>
+            )}
+          />
+      </div>
 
     </div>
   );

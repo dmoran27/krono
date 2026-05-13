@@ -5,42 +5,46 @@ import Stepper from '../../components/ui/Stepper';
 
 interface Props {
   onChange: (settings: ForTimeSettings) => void;
+  initialData?: ForTimeSettings;
 }
 
-export default function ForTimeForm({ onChange }: Props) {
+export default function ForTimeForm({ onChange, initialData }: Props) {
   const { t } = useLanguage();
   
-  const [preparationTime, setPreparationTime] = useState(10);
-  const [timeCap, setTimeCap] = useState(15);
+  const [preparationTime, setPreparationTime] = useState(initialData?.preparationTime ??  10);
+  const [timeCap, setTimeCap] = useState(initialData?.timeCap ?? 15);
 
   useEffect(() => {
     onChange({ preparationTime, timeCap });
   }, [preparationTime, timeCap, onChange]);
 
   return (
-    <div className="flex flex-col gap-section-gap w-full">
-      <section className="space-y-gutter">
+    <div className="w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-md mb-stack-lg">
+        <div className="m-1">
+          <Stepper 
+            label={t.config.preparationTime} 
+            value={preparationTime} 
+            onChange={setPreparationTime} 
+            step={5} 
+            suffix="s" 
+            icon="timer"
+          />
+          </div>
+          <div className="m-1"> 
         
-      
-        <Stepper 
-          label={t.config.preparationTime} 
-          value={preparationTime} 
-          onChange={setPreparationTime} 
-          step={5} 
-          suffix="s" 
-        />
+          <Stepper 
+            label={t.config.timeCap} 
+            value={timeCap.toString().padStart(2, '0')} 
+            onChange={setTimeCap} 
+            min={1}
+            suffix="m" 
+            highlighted={true} 
+            icon="schedule"
+          />
+          </div>
+        </div>
         
-       
-        <Stepper 
-          label={t.config.timeCap} 
-          value={timeCap.toString().padStart(2, '0')} 
-          onChange={setTimeCap} 
-          min={1}
-          suffix="m" 
-          highlighted={true} 
-        />
-        
-      </section>
-    </div>
+      </div>
   );
 }

@@ -7,14 +7,17 @@ export interface Translations {
   home: {
     appTitle: string;
     selectProtocol: string;
+    protocol: string;
+    configure: string;
     modes: Record<string, string>; 
   };
   nav: {
     timer: string;
     history: string;
-    home:string;
+    settings:string;
   };
   config: {
+    listIndexLabel: string;
     configuration: string;
     minutes: string;
     seconds: string;
@@ -38,11 +41,47 @@ export interface Translations {
     every: string;
     roundsTotal: string;
     alternatingExercises: string;
-    unilateralToggle: string;
+    RowActionGroup: string;
     reps: string;
     pace: string;
     addInterval: string;
     work: string;
     rest: string;
-  };
+    back: string;
+    edit: string;
+    cancel: string;
+  },
+  workout: {
+    finished: string;
+    timeElapsed: string;
+    side: string;
+    left: string;
+    right: string;
+    currentExercise: string;
+    next: string;
+    resume: string;
+    pause: string;
+    skip: string;
+    prep: string;
+    work: string;
+    rest: string;
+  },
+  footer: {
+    brandName: string;
+    copyright: string;
+    version: string;
+  },
+  protocols:{
+    tabataDesc: string;
+    emomDesc: string;
+    amrapDesc: string;
+    fortimeDesc: string;
+    pacerDesc: string;
+    customDesc: string;
+    stats: {
+      totalTime: string;
+      intensity: string;
+      max: string;
+    }
+  }
 }

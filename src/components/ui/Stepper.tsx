@@ -7,6 +7,7 @@ interface Props {
   suffix?: string;
   highlighted?: boolean;
   layout?: 'full' | 'compact';
+  icon?: string;
 }
 
 export default function Stepper({ 
@@ -17,56 +18,92 @@ export default function Stepper({
   min = 0, 
   suffix = '', 
   highlighted = false,
-  layout = 'full' 
+  layout = 'full',
+  icon
 }: Props) {
   
   const isCompact = layout === 'compact';
   const numericValue = typeof value === 'string' ? parseInt(value.replace(/[^0-9]/g, '')) : value;
 
-  // Clases condicionales para el contenedor principal
-  const containerClasses = isCompact
-    ? "bg-background p-gutter flex flex-col items-center w-full h-full border-2 border-primary/20"
-    : highlighted
-      ? "flex flex-col items-center justify-center space-y-4 py-12 border-2 border-primary bg-primary/10 w-full"
-      : "flex flex-col items-center justify-center space-y-4 py-8 border-2 border-primary/20 bg-background w-full";
+  const formatValue = (val: number | string) => {
+    if (typeof val === 'number') {
+      if (suffix === 's') return `00:${val.toString().padStart(2, '0')}`;
+      return val.toString().padStart(2, '0');
+    }
+    return val;
+  };
 
+  const displayValue = formatValue(value);
+  const borderClass = highlighted ? "border-primary" : "border-outline";
+
+  if (isCompact) {
+    // =========================================
+    // LAYOUT COMPACTO (Ej: Trabajo / Descanso)
+    // =========================================
+    return (
+      <div className={`bg-surface rounded-lg bg-surface border border-outline/20 p-4`}>
+        <div className="flex items-center gap-2 mb-4">
+          {icon && <span className="material-symbols-outlined text-primary text-lg">{icon}</span>}
+          <span className="font-label-lg text-sm uppercase tracking-wider text-on-surface">
+            {label}
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="font-numeric-data text-2xl font-bold text-on-surface">
+              {displayValue} {suffix}
+            </span>
+           
+          </div>
+          <div className="flex gap-2">
+            <button 
+              onClick={() => onChange(Math.max(min, numericValue - step))} 
+              className="w-10 h-10 bg-surface-container rounded-md  bg-transparent hover:bg-surface/50  hover:text-primary hover:border-primary/50 border border-outline/20 flex items-center justify-center active:scale-90 transition-transform text-on-surface hover:bg-surface-variant"
+            >
+              <span className="material-symbols-outlined">remove</span>
+            </button>
+            <button 
+              onClick={() => onChange(numericValue + step)} 
+              className="w-10 h-10 bg-surface-container rounded-md  bg-transparent hover:bg-surface/50  hover:text-primary hover:border-primary/50 border border-outline/20 flex items-center justify-center active:scale-90 transition-transform text-on-surface hover:bg-surface-variant"
+            >
+              <span className="material-symbols-outlined">add</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // =========================================
+  // LAYOUT FULL (Ej: Preparación / Ciclos)
+  // =========================================
   return (
-    <div className={containerClasses}>
+    <div className={`bg-surface rounded-lg bg-surface border border-outline/20 p-4 flex flex-col justify-between min-h-[140px]`}>
+      <div className="flex items-center gap-2 mb-2">
+        {icon && <span className="material-symbols-outlined text-primary text-lg">{icon}</span>}
+        <span className="font-label-lg text-sm uppercase tracking-wider text-on-surface">
+          {label}
+        </span>
+      </div>
       
-      {/* Etiqueta / Label */}
-      <span className={`font-label-caps tracking-widest text-center ${
-        isCompact ? 'text-primary/60 mb-2' : (highlighted ? 'text-primary px-4' : 'text-primary/60')
-      }`}>
-        {label}
-      </span>
-      
-      {/* Contenedor de Botones y Número */}
-      <div className={`flex items-center ${isCompact ? 'justify-between w-full' : 'space-x-gutter'}`}>
-        
+      <div className="flex items-center justify-between mt-auto">
         <button 
           onClick={() => onChange(Math.max(min, numericValue - step))} 
-          className={`text-primary flex items-center justify-center active:bg-primary active:text-background transition-none ${
-            isCompact ? 'p-2 active:scale-90 border-transparent' : 'w-16 h-16 border-2 border-primary'
-          }`}
+          className="w-12 h-12 bg-surface-container rounded-lg border border-outline/20  bg-transparent hover:bg-surface/50  hover:text-primary hover:border-primary/50 border border-outline/20 flex items-center justify-center active:scale-90 transition-transform text-on-surface hover:bg-surface-variant rounded-sm"
         >
           <span className="material-symbols-outlined">remove</span>
         </button>
         
-        <span className={`text-primary text-center ${
-          isCompact ? 'font-headline-md text-headline-md' : 'font-display-lg text-[48px] w-24'
-        }`}>
-          {value}{suffix}
+        <span className="font-numeric-data text-3xl font-bold text-primary">
+          {displayValue} {suffix}
         </span>
         
         <button 
           onClick={() => onChange(numericValue + step)} 
-          className={`text-primary flex items-center justify-center active:bg-primary active:text-background transition-none ${
-            isCompact ? 'p-2 active:scale-90 border-transparent' : 'w-16 h-16 border-2 border-primary'
-          }`}
+          className="w-12 h-12 bg-surface-container rounded-lg border border-outline/20  bg-transparent hover:bg-surface/50  hover:text-primary hover:border-primary/50 border border-outline/20 flex items-center justify-center active:scale-90 transition-transform text-on-surface hover:bg-surface-variant rounded-sm"
         >
           <span className="material-symbols-outlined">add</span>
         </button>
-        
       </div>
     </div>
   );

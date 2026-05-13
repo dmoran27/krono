@@ -16,20 +16,13 @@ export interface Exercise {
   unilateral: boolean;
 }
 
-export interface TabataCycle {
-  workTime: number;
-  restTime: number;
-  rounds: number;
-  exercises: Exercise[];
-  unilateralMode: boolean;
-  activeRest: string; 
-}
-
 export interface TabataSettings {
   preparationTime: number;
-  cycles: number;          
-  cycleRestTime: number;   
-  cycleConfigs: TabataCycle[]; 
+  workTime: number;       
+  restTime: number;       
+  cycles: number;         
+  activeRest: string;     
+  exercises: Exercise[];  
 }
 
 export interface EmomSettings {
@@ -53,7 +46,7 @@ export interface ForTimeSettings {
 export interface PaceExercise {
   name: string;
   reps: number;
-  timePerRep: number; // Segundos que dura CADA repetición
+  timePerRep: number; 
   unilateral: boolean;
 }
 
@@ -66,13 +59,55 @@ export type CustomIntervalType = 'work' | 'rest';
 
 export interface CustomInterval {
   name: string;
-  duration: number; // en segundos
+  duration: number; 
   type: CustomIntervalType;
   unilateral: boolean;
 }
 
 export interface CustomSettings {
   preparationTime: number;
-  rounds: number; // Cantidad de veces que se repite la secuencia completa
+  rounds: number;
   intervals: CustomInterval[];
+}
+
+export type WorkoutState = 'idle' | 'preparing' | 'work' | 'rest' | 'finished' | 'paused';
+
+export interface ActiveInterval {
+  name: string;        
+  duration: number;    
+  remaining: number;   
+  type: 'work' | 'rest' | 'prep';
+  unilateral?: 'L' | 'R' | null;
+  color?: string;      
+  elapsed?: number;  
+  countUp?: boolean; 
+  roundInfo?: string;
+  customDisplay?: string;
+}
+
+export interface WorkoutProgress {
+  currentIntervalIndex: number;
+  totalIntervals: number;
+  currentRound: number;
+  totalRounds: number;
+  elapsedTime: number; 
+}
+
+export interface WorkoutInterval {
+  id: string;
+  name: string;      
+  duration: number;  
+  type: 'prep' | 'work' | 'rest' | 'finished';
+  unilateral?: 'L' | 'R' | null;
+  countUp?: boolean; 
+  roundInfo?: string;
+  customDisplay?: string;
+}
+
+export interface WorkoutHistoryEntry {
+  id: string;
+  date: string;
+  mode: TrainingMode | 'CUSTOM'; 
+  elapsedTime: number;
+  totalIntervals: number;
 }

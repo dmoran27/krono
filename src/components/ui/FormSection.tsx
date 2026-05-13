@@ -1,17 +1,26 @@
 import { ReactNode } from 'react';
 
 interface Props {
-    title: string;
-    children: React.ReactNode;
-  }
-  
-  export default function FormSection({ title, children }: Props) {
-    return (
-      <article className="border-t-[6px] border-primary border-x-2 border-b-2 border-x-primary/20 border-b-primary/20 bg-surface-container-lowest p-gutter pt-8 space-y-6">
-        <span className="font-label-caps tracking-widest text-primary/60 block mb-4">
+  title: string;
+  children: ReactNode;
+}
+
+export default function FormSection({ title, children }: Props) {
+  return (
+    <section className="mt-8 w-full">
+      
+      {/* Encabezado de la sección (Estilo Técnico) */}
+      <div className=" mb-4 border-l-4 pl-8 border-primary">
+        <h3 className="font-label-lg text-sm uppercase tracking-wider text-on-surface  mt-4 ">
           {title}
-        </span>
+        </h3>
+      </div>
+      
+      {/* Contenedor de los elementos del formulario */}
+      <div className=" space-y-4">
         {children}
-      </article>
-    );
-  }
+      </div>
+      
+    </section>
+  );
+}

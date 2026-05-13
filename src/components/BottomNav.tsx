@@ -2,35 +2,38 @@ import { useLanguage } from '../context/LanguageContext';
 
 interface BottomNavProps {
   onGoHome?: () => void;
+  activeTab?: 'history' | 'modes' | 'settings'; 
+  onNavigate ?: "";
 }
 
-export default function BottomNav({ onGoHome }: BottomNavProps) {
+
+export default function BottomNav({ activeTab, onNavigate, onGoHome  }: BottomNavProps) {
   const { t } = useLanguage();
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center h-[80px] bg-background border-t-2 border-primary">
-      <button 
-        onClick={onGoHome}
-        className="flex flex-col items-center justify-center text-primary w-full h-full transition-none active:bg-primary active:text-background hover:bg-primary/10"
-      >
-        <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
-        <span className="font-label-caps text-[10px] mt-1 tracking-widest">MODES</span>
+    <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-[80px] bg-background/95 backdrop-blur-md border-t border-outline-variant">
+      <button onClick={() => onNavigate('home')} className={`flex flex-col items-center justify-center w-full h-full relative ${activeTab === 'timer' ? 'text-primary' : 'text-on-surface-variant'}`}>
+        {activeTab === 'modes' && <div className="absolute inset-0 bg-primary/5"></div>}
+        <span className="material-symbols-outlined text-[24px]">timer</span>
+        <span className="font-bold text-[9px] tracking-widest mt-1 uppercase">{t.nav.timer}</span>
+        {activeTab === 'modes' && <div className="absolute top-0 w-1/2 h-[2px] bg-primary rounded-b-full"></div>}
       </button>
       
-      <button className="flex flex-col items-center justify-center text-primary w-full h-full transition-none active:bg-primary active:text-background hover:bg-primary/10">
-        <span className="material-symbols-outlined">timer</span>
-        <span className="font-label-caps text-[10px] mt-1 tracking-widest">{t.nav.timer}</span>
+      <button onClick={() => onNavigate('history')} className={`flex flex-col items-center justify-center w-full h-full relative ${activeTab === 'history' ? 'text-primary' : 'text-on-surface-variant'}`}>
+        {activeTab === 'history' && <div className="absolute inset-0 bg-primary/5"></div>}
+        <span className="material-symbols-outlined text-[24px]">history</span>
+        <span className="font-bold text-[9px] tracking-widest mt-1 uppercase">{t.nav.history}</span>
+        {activeTab === 'history' && <div className="absolute top-0 w-1/2 h-[2px] bg-primary rounded-b-full"></div>}
       </button>
       
-      <button className="flex flex-col items-center justify-center text-primary w-full h-full transition-none active:bg-primary active:text-background hover:bg-primary/10 opacity-50">
-        <span className="material-symbols-outlined">history</span>
-        <span className="font-label-caps text-[10px] mt-1 tracking-widest">{t.nav.history}</span>
+      <button onClick={() => onNavigate('settings')} className={`flex flex-col items-center justify-center w-full h-full relative ${activeTab === 'modes' ? 'text-primary' : 'text-on-surface-variant'}`}>
+        {activeTab === 'settings' && <div className="absolute inset-0 bg-primary/5"></div>}
+        <span className="material-symbols-outlined text-[24px]">settings</span>
+        <span className="font-bold text-[9px] tracking-widest mt-1 uppercase">{t.nav.settings}</span>
+        {activeTab === 'settings' && <div className="absolute top-0 w-1/2 h-[2px] bg-primary rounded-b-full"></div>}
       </button>
-
-      <button className="flex flex-col items-center justify-center text-primary w-full h-full transition-none active:bg-primary active:text-background hover:bg-primary/10 opacity-50">
-        <span className="material-symbols-outlined">person</span>
-        <span className="font-label-caps text-[10px] mt-1 tracking-widest">PROFILE</span>
-      </button>
+      
     </nav>
+
   );
 }

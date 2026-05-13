@@ -1,26 +1,50 @@
 @import "tailwindcss";
 
+@import "tailwindcss";
+
 @theme {
+  /* ==========================================
+     KRONOS DESIGN SYSTEM
+     ========================================== */
+  
   /* Colores */
-  --color-background: #12140e;
-  --color-primary: #ffffff;
-  --color-primary-fixed: #ffffff;
-  --color-on-background: #e3e3d8;
-  --color-surface-variant: #34362e;
-  --color-on-surface-variant: #c5c8b6;
+  --color-primary: #3366cc;
+  --color-on-primary: #ffffff;
+  --color-background: #080808;
+  --color-surface: #131313;
+  --color-on-surface: #e5e2e1;
+  --color-surface-container: #201f1f;
+  --color-surface-container-high: #2a2a2a;
+  --color-on-surface-variant: #c3c6d5;
+  --color-outline-variant: #434653;
+  --color-outline: #8d909e;
 
-  /* Espaciado */
-  --spacing-touch-target-min: 64px;
-  --spacing-section-gap: 40px;
-  --spacing-margin-safe: 24px;
-  --spacing-gutter: 16px;
-  --spacing-unit: 8px;
+  /* Tipografías */
+  --font-body: "Geist", sans-serif;
+  --font-display: "Geist", sans-serif;
+  --font-headline: "Geist", sans-serif;
+  --font-label-caps: "JetBrains Mono", monospace;
+  --font-label: "JetBrains Mono", monospace;
+  --font-numeric-data: "Geist", sans-serif;
+}
 
-  /* Fuentes */
-  --font-headline-md: "Montserrat", sans-serif;
-  --font-display-lg: "Montserrat", sans-serif;
-  --font-body-lg: "Inter", sans-serif;
-  --font-label-caps: "Inter", sans-serif;
+/* ==========================================
+   ESTILOS BASE
+   ========================================== */
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-on-surface);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Personalización de la selección de texto */
+  ::selection {
+    background-color: rgba(51, 102, 204, 0.2); /* primary/20 */
+    color: var(--color-on-primary);
+  }
 }
 
 .material-symbols-outlined {

@@ -3,19 +3,21 @@ import { useLanguage } from '../../context/LanguageContext';
 import { PaceSettings, PaceExercise } from '../../types';
 
 // Componentes UI
+import ListItem from '../../components/ui/ListItem';
 import Stepper from '../../components/ui/Stepper';
 import DynamicList from '../../components/ui/DynamicList';
-import UnilateralToggle from '../../components/ui/UnilateralToggle';
+import RowActionGroup from '../../components/ui/RowActionGroup';
 
 interface Props {
   onChange: (settings: PaceSettings) => void;
+  initialData?: PaceSettings;
 }
 
-export default function PaceForm({ onChange }: Props) {
+export default function PaceForm({ onChange, initialData }: Props) {
   const { t } = useLanguage();
   
-  const [preparationTime, setPreparationTime] = useState(10);
-  const [exercises, setExercises] = useState<PaceExercise[]>([
+  const [preparationTime, setPreparationTime] = useState(initialData?.preparationTime ??10);
+  const [exercises, setExercises] = useState<PaceExercise[]>(initialData?.exercises ??[
     { name: '', reps: 10, timePerRep: 2, unilateral: false }
   ]);
 
@@ -42,7 +44,6 @@ export default function PaceForm({ onChange }: Props) {
   return (
     <div className="flex flex-col gap-section-gap w-full">
       
-      {/* SECCIÓN GLOBAL */}
       <section className="space-y-gutter">
         <Stepper 
           label={t.config.preparationTime} 
@@ -50,84 +51,72 @@ export default function PaceForm({ onChange }: Props) {
           onChange={setPreparationTime} 
           step={5} 
           suffix="s" 
+          icon="timer"
         />
       </section>
 
-      {/* SECCIÓN DE EJERCICIOS CON RITMO */}
-      <section className="space-y-8">
-        <DynamicList 
-          title={t.config.exercisesSequence}
-          items={exercises}
-          onAdd={addExercise}
-          addText={t.config.addExercise}
-          renderItem={(exercise, index) => (
-            
-            // CONTENEDOR TIPO "TARJETA" (Reemplaza al ListItem)
-            <div key={index} className="border-2 border-primary/40 p-4 bg-background focus-within:border-primary transition-colors flex flex-col gap-4">
-              
-              {/* CABECERA: Número, Input y Acciones alineadas */}
-              <div className="flex items-center justify-between border-b-2 border-primary/10 pb-3">
-                
-                {/* Lado Izquierdo: Número y Texto */}
-                <div className="flex items-center flex-1 min-w-0">
-                  <span className="font-label-caps text-primary/40 mr-4 w-4 text-center shrink-0">
-                    {index + 1}
-                  </span>
+
+      <div className="mt-stack-lg">
+          <DynamicList 
+            title={t.config.exercisesSequence}
+            items={exercises}
+            onAdd={addExercise}
+            addText={t.config.addExercise}
+            renderItem={(exercise, exIndex) => (
+              <ListItem 
+                key={exIndex} 
+                index={exIndex} 
+                className="rounded-lg bg-surface border border-outline/20 m-2 p-stack-md mb-stack-sm items-center "
+              >
+                <div className="w-full">
+                 <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between w-full">
                   <input 
                     type="text" 
                     value={exercise.name} 
-                    onChange={(e) => updateExercise(index, 'name', e.target.value)}
+                    onChange={(e) => updateExerciseName(exIndex, e.target.value)}
                     placeholder="EJ: SQUATS"
-                    className="bg-transparent border-none font-headline-md text-lg text-primary placeholder:text-primary/20 uppercase outline-none w-full focus:ring-0 p-0"
+                    className="bg-transparent border-none font-title-lg text-title-lg text-on-surface placeholder:text-surface-variant uppercase outline-none w-full focus:ring-0 p-0"
+                  />
+                  
+                  <RowActionGroup 
+                    active={exercise.unilateral} 
+                    onToggle={() => toggleUnilateral(exIndex)} 
+                    onRemove={() => removeExercise(exIndex)}
+                    disableRemove={exercises.length === 1}
                   />
                 </div>
-
-                {/* Lado Derecho: Acciones de la fila */}
-                <div className="flex items-center space-x-3 shrink-0 ml-4">
-                  <div className="border-r-2 border-primary/10 pr-3">
-                    <UnilateralToggle 
-                      active={exercise.unilateral} 
-                      onToggle={() => updateExercise(index, 'unilateral', !exercise.unilateral)} 
-                    />
-                  </div>
-                  
-                  <button 
-                    onClick={() => removeExercise(index)}
-                    disabled={exercises.length === 1}
-                    className="p-1 text-primary/40 hover:text-primary active:scale-90 disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <span className="material-symbols-outlined text-[20px]">close</span>
-                  </button>
-                  <span className="material-symbols-outlined text-primary/40 cursor-grab active:cursor-grabbing">
-                    drag_handle
-                  </span>
+                 <div className="w-full">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-md mb-stack-lg">
+                    <div className="m-1">
+                      <Stepper 
+                        label={t.config.reps} 
+                        value={exercise.reps} 
+                        onChange={(val) => updateExercise(index, 'reps', val)} 
+                        min={1} 
+                        layout="compact" 
+                        icon="cycle"
+                      />
+                    </div>
+                    <div className="m-1">
+                        <Stepper 
+                          label={t.config.pace} 
+                          value={exercise.timePerRep} 
+                          onChange={(val) => updateExercise(index, 'timePerRep', val)} 
+                          min={1} 
+                          suffix="s" 
+                          layout="compact" 
+                          icon="schedule"
+                        />
+                      
+                    </div>
                 </div>
-              </div>
-
-              {/* CUERPO: Controles Numéricos */}
-              <div className="grid grid-cols-2 gap-4">
-                <Stepper 
-                  label={t.config.reps} 
-                  value={exercise.reps} 
-                  onChange={(val) => updateExercise(index, 'reps', val)} 
-                  min={1} 
-                  layout="compact" 
-                />
-                <Stepper 
-                  label={t.config.pace} 
-                  value={exercise.timePerRep} 
-                  onChange={(val) => updateExercise(index, 'timePerRep', val)} 
-                  min={1} 
-                  suffix="s" 
-                  layout="compact" 
-                />
-              </div>
-
-            </div>
-          )}
-        />
-      </section>
-
+                </div>
+                </div>
+              </ListItem>
+            )}
+          />
+      </div>
+   
     </div>
   );
 }

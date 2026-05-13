@@ -1,160 +1,184 @@
 import { useState, useEffect } from 'react';
 import { useLanguage } from '../../context/LanguageContext';
-import { TabataSettings, TabataCycle } from '../../types';
 
 // Componentes UI Reutilizables
 import Stepper from '../../components/ui/Stepper';
 import ListItem from '../../components/ui/ListItem';
-import UnilateralToggle from '../../components/ui/UnilateralToggle';
+import RowActionGroup from '../../components/ui/RowActionGroup';
 import DynamicList from '../../components/ui/DynamicList'; 
+import { TabataSettings } from '../../types';
 
 interface Props {
-  onChange: (settings: TabataSettings) => void;
+  onChange: (settings: any) => void;
+  initialData?: TabataSettings;
 }
 
-export default function TabataForm({ onChange }: Props) {
+export default function TabataForm({ onChange, initialData }: Props) {
   const { t } = useLanguage();
   
-  const [preparationTime, setPreparationTime] = useState(10);
-  const [cycles, setCycles] = useState(1);
-  const [cycleRestTime, setCycleRestTime] = useState(60);
-
-  const [cycleConfigs, setCycleConfigs] = useState<TabataCycle[]>([
-    { workTime: 20, restTime: 10, rounds: 8, exercises: [{ name: '', unilateral: false }], activeRest: '' }
+  const [preparationTime, setPreparationTime] = useState(initialData?.preparationTime ?? 10);
+  const [workTime, setWorkTime] = useState(initialData?.workTime ?? 20);
+  const [restTime, setRestTime] = useState(initialData?.restTime ?? 10);
+  const [cycles, setCycles] = useState(initialData?.cycles ?? 8); 
+  const [activeRest, setActiveRest] = useState(initialData?.activeRest ?? '');
+  
+  const [exercises, setExercises] = useState(initialData?.exercises ?? [
+    { name: '', unilateral: false }
   ]);
 
   useEffect(() => {
-    setCycleConfigs(prev => {
-      const newConfigs = [...prev];
-      if (cycles > newConfigs.length) {
-        const lastCycle = newConfigs[newConfigs.length - 1];
-        for (let i = newConfigs.length; i < cycles; i++) {
-          newConfigs.push({ ...lastCycle, exercises: [{ name: '', unilateral: false }] });
-        }
-      } else if (cycles < newConfigs.length) {
-        newConfigs.length = cycles;
-      }
-      return newConfigs;
+    onChange({ 
+      preparationTime, 
+      workTime, 
+      restTime, 
+      cycles, 
+      activeRest, 
+      exercises 
     });
-  }, [cycles]);
+  }, [preparationTime, workTime, restTime, cycles, activeRest, exercises, onChange]);
 
-  useEffect(() => {
-    onChange({ preparationTime, cycles, cycleRestTime, cycleConfigs });
-  }, [preparationTime, cycles, cycleRestTime, cycleConfigs, onChange]);
-
-  const updateCycleField = <K extends keyof TabataCycle>(cycleIndex: number, field: K, value: TabataCycle[K]) => {
-    const newConfigs = [...cycleConfigs];
-    newConfigs[cycleIndex] = { ...newConfigs[cycleIndex], [field]: value };
-    setCycleConfigs(newConfigs);
+  const addExercise = () => {
+    setExercises([...exercises, { name: '', unilateral: false }]);
   };
 
-  const addExercise = (cycleIndex: number) => {
-    const newConfigs = [...cycleConfigs];
-    newConfigs[cycleIndex].exercises.push({ name: '', unilateral: false });
-    setCycleConfigs(newConfigs);
-  };
-
-  const removeExercise = (cycleIndex: number, exIndex: number) => {
-    const newConfigs = [...cycleConfigs];
-    if (newConfigs[cycleIndex].exercises.length > 1) {
-      newConfigs[cycleIndex].exercises.splice(exIndex, 1);
-      setCycleConfigs(newConfigs);
+  const removeExercise = (index: number) => {
+    if (exercises.length > 1) {
+      const newEx = [...exercises];
+      newEx.splice(index, 1);
+      setExercises(newEx);
     }
   };
 
-  const updateExerciseName = (cycleIndex: number, exIndex: number, val: string) => {
-    const newConfigs = [...cycleConfigs];
-    newConfigs[cycleIndex].exercises[exIndex].name = val;
-    setCycleConfigs(newConfigs);
+  const updateExerciseName = (index: number, val: string) => {
+    const newEx = [...exercises];
+    newEx[index].name = val;
+    setExercises(newEx);
   };
 
-  const toggleUnilateral = (cycleIndex: number, exIndex: number) => {
-    const newConfigs = [...cycleConfigs];
-    newConfigs[cycleIndex].exercises[exIndex].unilateral = !newConfigs[cycleIndex].exercises[exIndex].unilateral;
-    setCycleConfigs(newConfigs);
+  const toggleUnilateral = (index: number) => {
+    const newEx = [...exercises];
+    newEx[index].unilateral = !newEx[index].unilateral;
+    setExercises(newEx);
   };
 
   return (
-    <div className="flex flex-col gap-section-gap w-full">
+    <div className="flex flex-col gap-6 w-full">
       
-      {/* SECCIÓN GLOBAL */}
-      <section className="space-y-gutter">
-        <Stepper label={t.config.preparationTime} value={preparationTime} onChange={setPreparationTime} step={5} suffix="s" />
-        
-        <div className={`grid grid-cols-2 gap-px border-2 transition-colors ${cycles > 1 ? 'border-primary bg-primary' : 'border-primary/20 bg-primary/20'}`}>
-          <Stepper label={t.config.cycles} value={cycles.toString().padStart(2, '0')} onChange={setCycles} min={1} layout="compact" />
-          <div className={`transition-opacity ${cycles > 1 ? 'opacity-100' : 'opacity-20 pointer-events-none'} flex flex-col w-full h-full`}>
-            <Stepper label={t.config.cycleRest} value={cycleRestTime} onChange={setCycleRestTime} step={10} suffix="s" layout="compact" />
-          </div>
-        </div>
+      {/* SECCIÓN: Preparación */}
+      <section className="">
+        <Stepper 
+          label={t.config?.preparationTime || 'TIEMPO DE PREPARACIÓN'} 
+          value={preparationTime} 
+          onChange={setPreparationTime} 
+          step={5} 
+          suffix="s"
+          icon="timer"
+        />
       </section>
 
-      {/* TARJETAS DE INTERVALO (CICLOS) */}
-      <section className="space-y-8">
-        {cycleConfigs.map((cycle, cycleIndex) => (
-          <article key={cycleIndex} className="border-t-[6px] border-primary border-x-2 border-b-2 border-x-primary/20 border-b-primary/20 bg-surface-container-lowest relative">
-            
-            {cycles > 1 && (
-              <div className="absolute top-2 right-4">
-                <span className="font-label-caps tracking-widest text-primary">INTERVAL {cycleIndex + 1}</span>
-              </div>
-            )}
-
-            <div className={`p-gutter ${cycles > 1 ? 'pt-12' : 'pt-6'} space-y-gutter`}>
-              
-              <div className="grid grid-cols-3 gap-gutter">
-                <Stepper label={t.config.workTime} value={cycle.workTime} onChange={(val) => updateCycleField(cycleIndex, 'workTime', val)} step={5} min={5} suffix="s" layout="compact" />
-                <Stepper label={t.config.restTime} value={cycle.restTime} onChange={(val) => updateCycleField(cycleIndex, 'restTime', val)} step={5} suffix="s" layout="compact" />
-                <Stepper label={t.config.rounds} value={cycle.rounds} onChange={(val) => updateCycleField(cycleIndex, 'rounds', val)} step={1} min={1} layout="compact" />
-              </div>
-
-              <div className="space-y-2 border-2 border-primary/20 p-3 bg-background focus-within:border-primary/60 transition-colors">
-                <span className="font-label-caps text-[10px] tracking-widest text-primary/60 flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[14px]">pause_circle</span>
-                  {t.config.activeRest}
-                </span>
-                <input 
-                  type="text" 
-                  value={cycle.activeRest} 
-                  onChange={(e) => updateCycleField(cycleIndex, 'activeRest', e.target.value)}
-                  placeholder={t.config.activeRestPlaceholder}
-                  className="bg-transparent border-none font-headline-md text-lg text-primary placeholder:text-primary/20 uppercase outline-none w-full focus:ring-0 p-0"
+      {/* SECCIÓN: Configuración del Tabata */}
+      <section className="space-y-6">
+          
+          {/* Tiempos y Rondas en Grid - CORREGIDO EL RESPONSIVE */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Tarjeta 1 */}
+            <div className="">
+                <Stepper 
+                  label={t.config?.workTime || 'TIEMPO DE TRABAJO'} 
+                  value={workTime} 
+                  onChange={setWorkTime} 
+                  step={5} 
+                  min={5} 
+                  suffix="s" 
+                  layout="compact" 
+                  icon="schedule"
                 />
-              </div>
+            </div>
+            
+            {/* Tarjeta 2 */}
+            <div className="">
+                <Stepper 
+                  label={t.config?.restTime || 'DESCANSO'} 
+                  value={restTime} 
+                  onChange={setRestTime} 
+                  step={5} 
+                  suffix="s" 
+                  layout="compact" 
+                  icon="update"
+                />
+            </div>
+            
+            {/* Tarjeta 3 */}
+            <div className="">
+                <Stepper 
+                  label={t.config?.cycles || 'CICLOS (TABATAS)'} 
+                  value={cycles} 
+                  onChange={setCycles} 
+                  step={1} 
+                  min={1} 
+                  layout="compact" 
+                  icon="cycle"
+                />
+            </div>
+          </div>
 
-              {/* ¡AQUÍ USAMOS DYNAMIC LIST POR CADA CICLO! */}
+          {/* Descanso Activo */}
+          {restTime > 0 && (
+            <div className="rounded-xl bg-surface border border-outline-variant/30 p-5 focus-within:border-primary/50 focus-within:shadow-[0_0_15px_rgba(51,102,204,0.1)] transition-all">
+              <span className="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2 mb-3">
+                <span className="material-symbols-outlined text-[16px]">pause_circle</span>
+                {t.config?.activeRest || 'DESCANSO ACTIVO (OPCIONAL)'}
+              </span>
+              <input 
+                type="text" 
+                value={activeRest} 
+                onChange={(e) => setActiveRest(e.target.value)}
+                placeholder={t.config?.activeRestPlaceholder || 'EJ: PLANCHA ISOMÉTRICA'}
+                className="bg-transparent border-none font-display text-xl text-primary placeholder:text-surface-variant/50 uppercase outline-none w-full focus:ring-0 p-0"
+              />
+            </div>
+          )}
+
+          {/* Lista de Ejercicios */}
+          <div className="mt-6">
               <DynamicList 
-                title={t.config.exercisesSequence}
-                items={cycle.exercises}
-                onAdd={() => addExercise(cycleIndex)}
-                addText={t.config.addExercise}
+                title={t.config?.exercisesSequence || 'SECUENCIA DE EJERCICIOS'}
+                items={exercises}
+                onAdd={addExercise}
+                addText={t.config?.addExercise || 'AÑADIR EJERCICIO'}
                 renderItem={(exercise, exIndex) => (
                   <ListItem 
                     key={exIndex} 
                     index={exIndex} 
-                    onRemove={() => removeExercise(cycleIndex, exIndex)}
-                    disableRemove={cycle.exercises.length === 1}
                   >
-                    <input 
-                      type="text" 
-                      value={exercise.name} 
-                      onChange={(e) => updateExerciseName(cycleIndex, exIndex, e.target.value)}
-                      placeholder={cycles > 1 ? `EJ: INTERVAL ${cycleIndex + 1} MOVE` : 'EJ: SQUATS'}
-                      className="bg-transparent border-none font-headline-md text-lg text-primary placeholder:text-primary/20 uppercase outline-none w-full focus:ring-0 p-0 ml-2"
-                    />
-                    <UnilateralToggle 
-                      active={exercise.unilateral} 
-                      onToggle={() => toggleUnilateral(cycleIndex, exIndex)} 
-                    />
+                    {/* Contenedor flexible: Columna en móvil, Fila en pantallas grandes */}
+                    <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center w-full">
+                      
+                      {/* Input toma todo el espacio sobrante */}
+                      <input 
+                        type="text" 
+                        value={exercise.name} 
+                        onChange={(e) => updateExerciseName(exIndex, e.target.value)}
+                        placeholder="EJ: SQUATS"
+                        className="flex-1 bg-transparent border-none font-display text-xl text-on-surface placeholder:text-surface-variant/40 uppercase outline-none w-full focus:ring-0 p-0"
+                      />
+                      
+                      {/* El RowActionGroup no se aplasta en móviles */}
+                      <div className="shrink-0">
+                        <RowActionGroup 
+                          active={exercise.unilateral} 
+                          onToggle={() => toggleUnilateral(exIndex)} 
+                          onRemove={() => removeExercise(exIndex)}
+                          disableRemove={exercises.length === 1}
+                        />
+                      </div>
+                      
+                    </div>
                   </ListItem>
                 )}
               />
-
-            </div>
-          </article>
-        ))}
+          </div>
       </section>
-
     </div>
   );
 }

@@ -2,6 +2,23 @@
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
 
+## [0.1.6] - 2026-05-13
+
+### Added
+- Sistema de Historial Persistente (useHistory): Guardado automático en localStorage al finalizar un entrenamiento.
+- Límite inteligente de 20 registros máximos (FIFO) para optimizar memoria.
+- Nueva vista HistoryView con tarjetas detalladas (fecha numérica, modo, duración e intervalos totales) y botón para borrar registros.
+- Flujo de Edición "State-Preserving": Posibilidad de abortar un WOD y presionar "Editar" para regresar a la vista de configuración con los datos pre-cargados (sin perder los ajustes previos).
+- Limpieza automática del estado (savedConfig = null) al acceder desde la pantalla de inicio para garantizar un lienzo en blanco.
+
+### Changed
+- Cambio completo en los estilos del tema
+- Mejoras en el cronómetro principal ahora es un overlay absoluto a pantalla completa con fondo negro puro (bg-black), ocultando la navegación general para maximizar la concentración.
+- Rediseño Visual (Estilo Técnico/Industrial): Paleta semántica de alto contraste: Verde Neón (Trabajo), Azul (Descanso), Naranja (Preparación) y Rojo Pulsante (últimos 5 segundos).
+- Correccion en la Pantalla de "Misión Cumplida" Épica: Rediseño total de la pantalla de finalización con un anillo técnico giratorio (animate-spin), halos de luz pulsantes y un icono de victoria sólido.
+- Optimización Responsiva: Se corrigió el desbordamiento en móviles de la lista dinámica (DynamicList) permitiendo que los selectores de Trabajo/Descanso se apilen lógicamente.
+Se agregaron botones flotantes en la vista de entrenamiento se reubicaron a la esquina superior derecha con tamaños adaptativos para no estorbar con los controles de pausa o salto.
+
 ## [0.1.5] - 2026-05-11
 
 ### Changed
