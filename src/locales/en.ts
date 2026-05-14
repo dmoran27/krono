@@ -50,7 +50,7 @@ export const en: Translations = {
     every: "EVERY (WINDOW)",
     roundsTotal: "TOTAL ROUNDS",
     alternatingExercises: "SEQUENCE (ALTERNATING PER ROUND)",
-    RowActionGroup: "L/R",
+    RowActionGroup: "ALTERNATE SIDES",
     reps: "REPS",
     pace: "PACE (SEC/REP)",
     addInterval: "ADD INTERVAL",

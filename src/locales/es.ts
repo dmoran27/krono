@@ -50,7 +50,7 @@ export const es: Translations = {
     every: "CADA (VENTANA)",
     roundsTotal: "RONDAS TOTALES",
     alternatingExercises: "SECUENCIA (ALTERNADA POR RONDA)",
-    RowActionGroup: "I/D",
+    RowActionGroup: "ALTERNAR LADOS",
     reps: "REPETICIONES",
     pace: "RITMO (SEG/REP)",
     addInterval: "AÑADIR INTERVALO",

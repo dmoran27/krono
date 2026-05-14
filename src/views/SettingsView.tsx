@@ -119,13 +119,6 @@ export default function SettingsView() {
           </div>
         </div>
 
-        {/* FOOTER: SYSTEM STATUS */}
-        <div className="flex justify-between items-center opacity-40 px-2">
-          <span className="font-label text-[10px] uppercase tracking-[0.2em]">KRONOS ENGINE V3.0</span>
-          <span className="font-label text-[10px] text-primary font-bold uppercase tracking-widest">
-            {t.settings?.status || 'READY OFFLINE'}
-          </span>
-        </div>
       </section>
     </div>
   );

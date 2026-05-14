@@ -22,7 +22,7 @@ export default function RowActionGroup({
   const { t } = useLanguage();
 
   return (
-    <div className="flex items-center gap-3 align-center">
+    <div className="flex items-center gap-4 align-center">
       {/* Acción Extra */}
       {extraAction && (
         <div className="flex border-r border-outline-variant/30 pr-3 h-6 items-center">
@@ -34,7 +34,7 @@ export default function RowActionGroup({
       <button
         onClick={onToggle}
         className={`
-          flex items-center justify-center px-3 py-1.5 border rounded-lg
+          flex items-center justify-center px-3 py-1.5 border rounded-lg h-6
           transition-all duration-200 active:scale-95 cursor-pointer
           ${active 
             ? 'border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(51,102,204,0.1)]' 

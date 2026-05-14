@@ -1,4 +1,3 @@
-// src/views/HistoryView.tsx
 import { useLanguage } from '../context/LanguageContext';
 import { useHistory } from '../hooks/useHistory';
 
@@ -12,7 +11,6 @@ export default function HistoryView() {
     return `${m}:${s}`;
   };
 
-  // Formato numérico universal (DD/MM/YYYY - HH:MM)
   const formatNumericDate = (isoString: string) => {
     const date = new Date(isoString);
     const d = date.getDate().toString().padStart(2, '0');
@@ -23,14 +21,22 @@ export default function HistoryView() {
     return `${d}/${m}/${y} - ${hs}:${ms}`;
   };
 
+  const translateMode = (mode: string) => {
+    // Convertimos a minúsculas para que coincida con las llaves de tu archivo de traducción (ej: 'pacer')
+    const modeKey = mode.toLowerCase();
+    
+    // Le decimos a TS que busque en 'modes', ignorando la validación estricta de la interfaz
+    const translatedWord = (t as any).home.modes?.[modeKey];
+
+    // Si encuentra la traducción la usa, si no (como en AMRAP o TABATA), lo deja en mayúsculas
+    return translatedWord || mode.toUpperCase();
+  };
+
   return (
     <div className="w-full flex flex-col flex-1 pb-margin-safe">
 
-      
       {/* HEADER KRONOS STYLE */}
-
       <div className="space-y-1 md:space-y-2 border-l-2 md:border-l-4 border-primary pl-4 md:pl-8 mb-4">
-          
           <h2 className="font-display-lg text-3xl md:text-4xl lg:text-5xl text-primary uppercase font-bold leading-tight md:leading-none">
           {t.nav?.history || 'HISTORIAL'}
           </h2>
@@ -50,14 +56,12 @@ export default function HistoryView() {
           )}
         </div>
 
-     
-
       {history.length > 0 ? (
         <div className="grid grid-cols-1 gap-4">
           {history.map((log) => (
             <div 
               key={log.id} 
-              className=" border border-outline-variant/10 rounded-2xl p-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 group hover:border-primary/40 transition-all shadow-md"
+              className="border border-outline-variant/10 rounded-2xl p-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 group hover:border-primary/40 transition-all shadow-md bg-surface"
             >
               {/* Lado Izquierdo: Fecha y Modo */}
               <div className="space-y-2">
@@ -69,18 +73,18 @@ export default function HistoryView() {
                 </div>
                 <div className="flex items-center gap-3">
                   <h3 className="font-display text-3xl font-black uppercase text-on-surface tracking-tight">
-                    {log.mode}
+                    {translateMode(log.mode)}
                   </h3>
-                  <span className="bg-[#1A1A1A] px-2 py-1 rounded-md font-label text-[10px] uppercase tracking-widest text-on-surface-variant border border-outline-variant/20">
-                    {log.totalIntervals} {t.history?.intervals || 'INT'}
-                  </span>
+                  {/* CORRECCIÓN: Se cambió bg-[#1A1A1A] por bg-on-surface/5 para que funcione en ambos modos */}
+                 
                 </div>
               </div>
               
               {/* Lado Derecho: Duración */}
-              <div className="flex sm:flex-col items-center sm:items-end justify-between bg-[#1A1A1A] sm:bg-transparent p-3 sm:p-0 rounded-xl border sm:border-none border-outline-variant/10">
+              {/* CORRECCIÓN: Se cambió bg-[#1A1A1A] por bg-on-surface/5 para el diseño responsive */}
+              <div className="flex sm:flex-col items-center sm:items-end justify-between bg-on-surface/5 sm:bg-transparent p-3 sm:p-0 rounded-xl border sm:border-none border-outline-variant/10">
                 <p className="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">
-                  {t.history?.duration || 'DURACIÓN'}
+                  {t.history?.duration || 'TIEMPO TOTAL'}
                 </p>
                 <p 
                   className="font-display text-4xl font-black text-primary tracking-tighter" 
@@ -93,7 +97,7 @@ export default function HistoryView() {
           ))}
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/10 rounded-3xl opacity-60  min-h-[300px]">
+        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/10 rounded-3xl opacity-60 min-h-[300px]">
           <span className="material-symbols-outlined text-[64px] mb-4 text-on-surface-variant/30">history_toggle_off</span>
           <p className="font-label text-xs uppercase tracking-[0.3em] text-on-surface-variant font-bold">
             {t.history?.noLogs || 'SIN REGISTROS'}

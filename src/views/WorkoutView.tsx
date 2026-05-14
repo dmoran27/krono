@@ -335,20 +335,20 @@ export default function WorkoutView({ sequence, mode, onCancel, onEdit, onFinish
                 </div>
               </div>
   
-              <div className="w-full max-w-sm mb-auto h-16">
+              <div className="w-full max-w-sm mb-auto h-16 text-center">
                 {nextInterval && nextInterval.type !== 'finished' && (
-                  <div className="flex items-center justify-between bg-surface-container border border-outline-variant rounded-xl px-5 py-3 shadow-sm">
-                    <button className="flex items-center justify-center  opacity-70 hover:opacity-50 transition-all active:scale-95 shadow-sm" onClick={skipInterval}>
+                  <button className="w-full flex items-center justify-between bg-surface-container border border-outline-variant rounded-xl px-5 py-3 shadow-sm w-100" onClick={skipInterval}>
+                    <div className="flex items-center justify-center  opacity-70 hover:opacity-50 transition-all" >
                       <span className="material-symbols-outlined opacity-40 text-[20px]">skip_next</span>
                       <span className="font-label text-[10px] uppercase font-bold tracking-widest opacity-50">
                         {t.workout?.next || 'SIGUIENTE'}
                       </span>
-                    </button>
+                    </div>
                     {/* 3. Corrección de tipado TypeScript para nextInterval */}
                     <span className="font-display text-lg font-bold uppercase truncate max-w-[150px]">
                       {nextInterval.name || t.workout?.[(nextInterval.type || 'work') as keyof typeof t.workout] || nextInterval.type}
                     </span>
-                  </div>
+                  </button>
                 )}
               </div>
   

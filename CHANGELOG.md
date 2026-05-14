@@ -7,6 +7,19 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 Todos los cambios notables de este proyecto se documentarán en este archivo.
 
+## [1.0.1] - 2026-05-14
+
+### Changed
+- UI/UX (Listados): Rediseño del componente `ListItem` con flexbox responsivo para evitar el aplastamiento de inputs en pantallas móviles.
+- UI/UX (Acciones): Refactorización del botón unilateral ("Alternar Lados").
+
+### Fixed
+- Theming: Corrección de colores hexadecimales quemados (`bg-[#1A1A1A]`) en `HistoryView`, permitiendo una adaptación perfecta al modo Claro/Oscuro mediante variables semánticas.
+- Cumplimiento Estricto de TypeScript: 
+  - Corrección de llamadas a funciones en `App.tsx` (`saveWorkout` y firma de `buildWorkoutSequence`).
+  - Importación faltante de `CustomInterval` en el generador de secuencias.
+  - Implementación de un *Type-Safe fallback* para evitar errores de compilación con claves de traducción dinámicas no definidas.
+
 ## [1.0.0] - 2026-05-14
 
 ### Added
