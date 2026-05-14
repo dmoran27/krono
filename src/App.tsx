@@ -4,7 +4,6 @@ import HomeView from './views/HomeView';
 import HistoryView from './views/HistoryView';
 import SettingsView from './views/SettingsView';
 import ConfigView from './views/ConfigView';
-import { useLanguage } from './context/LanguageContext';
 import WorkoutView from './views/WorkoutView';
 import { TrainingMode, WorkoutInterval} from './types';
 import { buildWorkoutSequence } from './utils/workoutBuilder';
@@ -16,10 +15,9 @@ type AppScreen = 'home' | 'history' | 'settings' | 'config' | 'workout';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('home');
-  const { t } = useLanguage();
   
   // 2. EXTRAE LA FUNCIÓN DE GUARDADO
-  const { addWorkout } = useHistory(); 
+  const { saveWorkout } = useHistory();
 
   const [selectedMode, setSelectedMode] = useState<TrainingMode | null>(null);
   const [workoutSequence, setWorkoutSequence] = useState<WorkoutInterval[]>([]);
@@ -38,7 +36,7 @@ export default function App() {
   const handleStartWorkout = (configData: any) => {
     if (!selectedMode) return;
     setSavedConfig(configData);
-    const generatedSequence = buildWorkoutSequence(selectedMode, configData, t);
+    const generatedSequence = buildWorkoutSequence(selectedMode, configData);
     setWorkoutSequence(generatedSequence);
     setCurrentScreen('workout'); 
   };
@@ -58,7 +56,7 @@ export default function App() {
     if (!selectedMode) return;
     
     // Asumiendo que tu hook useHistory maneja el id y la fecha internamente
-    addWorkout({
+    saveWorkout({
       mode: selectedMode,
       elapsedTime,
       totalIntervals

@@ -1,4 +1,4 @@
-import { WorkoutInterval, TrainingMode } from '../types';
+import { WorkoutInterval, TrainingMode, CustomInterval  } from '../types';
 
 export function buildWorkoutSequence(mode: TrainingMode, config: any): WorkoutInterval[] {
   const sequence: WorkoutInterval[] = [];
