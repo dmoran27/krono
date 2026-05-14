@@ -1,39 +1,53 @@
-name: ${PROJECT_NAME:-tempo}
+name: ${PROJECT_NAME:-kronos}
 
 services:
-  # Frontend React (Vite)
-  frontend:
-    build:
-      context: .
-      # Asumimos que el Dockerfile estará en la raíz del proyecto
-      dockerfile: ./docker/frontend/Dockerfile 
-    image: ${PROJECT_NAME:-tempo}-frontend-image
-    container_name: ${PROJECT_NAME:-tempo}-frontend
-    restart: unless-stopped
+  # ==========================================
+  # ENTORNO DE DESARROLLO (Vite + HMR)
+  # Uso: docker compose --profile development up
+  # ==========================================
+  web-dev:
+    profiles: ["development"]
+    image: node:20-alpine
+    container_name: ${PROJECT_NAME:-kronos}-dev
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    working_dir: /app
+    ports:
+      - "${PORT_WEB_DEV:-5173}:5173"
     environment:
       - NODE_ENV=development
-    ports:
-      - "${PORT_WEB:-5173}:5173" # Exponemos el puerto por defecto de Vite
+      - CHOKIDAR_USEPOLLING=true 
     volumes:
-      # Mapeamos la raíz de tu proyecto local a la carpeta /app del contenedor
       - ./:/app
-      # Protegemos la carpeta node_modules del contenedor para que tu entorno local no la sobreescriba
       - /app/node_modules 
-    healthcheck:
-      test: ["CMD-SHELL", "npm run dev -- --host 0.0.0.0"]
-      interval: 10s
-      timeout: 5s
-      retries: 6
-      start_period: 15s
+    networks:
+      - local_network
+
+  # ==========================================
+  # ENTORNO DE PRODUCCIÓN (Build + Nginx)
+  # Uso: docker compose --profile production up
+  # ==========================================
+  web-prod:
+    profiles: ["production"]
+    build:
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile 
+      args:
+        - VITE_APP_DOMAIN=${VITE_APP_DOMAIN:-http://localhost}
+    image: ${PROJECT_NAME:-kronos}-prod-image
+    container_name: ${PROJECT_NAME:-kronos}-prod
+    restart: unless-stopped
+    ports:
+      - "${PORT_WEB_PROD:-80}:80"
     deploy:
       resources:
         limits:
-          memory: 512M
+          memory: 128M
     networks:
       - local_network
+      - public_network 
 
 networks:
   local_network:
     driver: bridge
   public_network:
-    external: true
+    external: true 

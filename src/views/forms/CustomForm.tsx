@@ -6,7 +6,7 @@ import { CustomSettings, CustomInterval } from '../../types';
 import Stepper from '../../components/ui/Stepper';
 import DynamicList from '../../components/ui/DynamicList';
 import RowActionGroup from '../../components/ui/RowActionGroup';
-import ListItem from '../../components/ui/ListItem'; // Importamos el nuevo ListItem
+import ListItem from '../../components/ui/ListItem'; 
 
 interface Props {
   onChange: (settings: CustomSettings) => void;
@@ -98,7 +98,7 @@ export default function CustomForm({ onChange, initialData }: Props) {
 
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 w-full xl:w-auto shrink-0 mt-2 xl:mt-0">
                     
-                    <div className="flex w-full sm:w-auto bg-[#1A1A1A] p-1 rounded-lg border border-outline-variant/20 shrink-0">
+                    <div className="flex w-full sm:w-auto  p-1 rounded-lg border border-outline-variant/20 shrink-0">
                       <button 
                         onClick={() => updateInterval(index, 'type', 'work')}
                         className={`flex-1 sm:w-28 py-1.5 px-4 text-[10px] font-label font-bold tracking-widest uppercase rounded-md transition-all duration-200 ${

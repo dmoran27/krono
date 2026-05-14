@@ -29,6 +29,12 @@ export default function PaceForm({ onChange, initialData }: Props) {
     setExercises([...exercises, { name: '', reps: 10, timePerRep: 2, unilateral: false }]);
   };
 
+  const toggleUnilateral = (index: number) => {
+    const newEx = [...exercises];
+    newEx[index].unilateral = !newEx[index].unilateral;
+    setExercises(newEx);
+  };
+  
   const removeExercise = (indexToRemove: number) => {
     if (exercises.length > 1) {
       setExercises(exercises.filter((_, index) => index !== indexToRemove));
@@ -66,14 +72,13 @@ export default function PaceForm({ onChange, initialData }: Props) {
               <ListItem 
                 key={exIndex} 
                 index={exIndex} 
-                className="rounded-lg bg-surface border border-outline/20 m-2 p-stack-md mb-stack-sm items-center "
               >
                 <div className="w-full">
                  <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between w-full">
                   <input 
                     type="text" 
                     value={exercise.name} 
-                    onChange={(e) => updateExerciseName(exIndex, e.target.value)}
+                    onChange={(e) => updateExercise(exIndex, "name",  e.target.value)}
                     placeholder="EJ: SQUATS"
                     className="bg-transparent border-none font-title-lg text-title-lg text-on-surface placeholder:text-surface-variant uppercase outline-none w-full focus:ring-0 p-0"
                   />
@@ -91,7 +96,7 @@ export default function PaceForm({ onChange, initialData }: Props) {
                       <Stepper 
                         label={t.config.reps} 
                         value={exercise.reps} 
-                        onChange={(val) => updateExercise(index, 'reps', val)} 
+                        onChange={(val) => updateExercise(exIndex, 'reps', val)} 
                         min={1} 
                         layout="compact" 
                         icon="cycle"
@@ -101,7 +106,7 @@ export default function PaceForm({ onChange, initialData }: Props) {
                         <Stepper 
                           label={t.config.pace} 
                           value={exercise.timePerRep} 
-                          onChange={(val) => updateExercise(index, 'timePerRep', val)} 
+                          onChange={(val) => updateExercise(exIndex, 'timePerRep', val)} 
                           min={1} 
                           suffix="s" 
                           layout="compact" 

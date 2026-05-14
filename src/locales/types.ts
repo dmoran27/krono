@@ -50,12 +50,18 @@ export interface Translations {
     back: string;
     edit: string;
     cancel: string;
+    delete: string;
   },
   workout: {
     finished: string;
     timeElapsed: string;
     side: string;
+    missionAccomplished:string;
     left: string;
+    leftFull: string; 
+    preparation: string;
+    exercise: string;
+    rightFull: string;
     right: string;
     currentExercise: string;
     next: string;
@@ -65,11 +71,47 @@ export interface Translations {
     prep: string;
     work: string;
     rest: string;
+    loading: string;
+    activeRest: string;
+    roundRest: string;
+    round: string;
+  },
+  meta: {
+    title: string;
+    description: string;
+    ogTitle: string;
+    ogDescription: string;
+    twitterDescription: string;
   },
   footer: {
     brandName: string;
     copyright: string;
     version: string;
+  },
+  settings:{
+    langLabel: string;
+    audioGroup: string;
+    voiceLabel: string;
+    on: string;
+    off: string;
+    beepsLabel: string;
+    dataGroup: string;
+    dataDesc: string;
+    confirmClear: string;
+    clearAll: string;
+    status: string;
+    subtitle: string;
+    appearanceGroup: string;
+    themeLabel:string;
+    dark:string;
+    light:string;
+  },
+  history:{
+    subtitle: string;
+    clear: string;
+    intervals: string;
+    duration: string;
+    noLogs: string;
   },
   protocols:{
     tabataDesc: string;

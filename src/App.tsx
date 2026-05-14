@@ -4,30 +4,26 @@ import HomeView from './views/HomeView';
 import HistoryView from './views/HistoryView';
 import SettingsView from './views/SettingsView';
 import ConfigView from './views/ConfigView';
+import { useLanguage } from './context/LanguageContext';
 import WorkoutView from './views/WorkoutView';
-import { useHistory } from './hooks/useHistory';
-
-import { TrainingMode, WorkoutInterval, ScreenState } from './types';
+import { TrainingMode, WorkoutInterval} from './types';
 import { buildWorkoutSequence } from './utils/workoutBuilder';
+
+// 1. IMPORTA TU HOOK DE HISTORIAL
+import { useHistory } from './hooks/useHistory'; 
 
 type AppScreen = 'home' | 'history' | 'settings' | 'config' | 'workout';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>('home');
+  const { t } = useLanguage();
   
+  // 2. EXTRAE LA FUNCIÓN DE GUARDADO
+  const { addWorkout } = useHistory(); 
+
   const [selectedMode, setSelectedMode] = useState<TrainingMode | null>(null);
   const [workoutSequence, setWorkoutSequence] = useState<WorkoutInterval[]>([]);
-  
   const [savedConfig, setSavedConfig] = useState<any>(null);
-  const { saveWorkout } = useHistory();
-
-  const handleWorkoutFinish = (elapsedTime: number, totalIntervals: number) => {
-    saveWorkout({
-      mode: selectedMode || 'CUSTOM',
-      elapsedTime,
-      totalIntervals
-    });
-  };
 
   // ==========================================
   // MANEJADORES DE NAVEGACIÓN
@@ -42,7 +38,7 @@ export default function App() {
   const handleStartWorkout = (configData: any) => {
     if (!selectedMode) return;
     setSavedConfig(configData);
-    const generatedSequence = buildWorkoutSequence(selectedMode, configData);
+    const generatedSequence = buildWorkoutSequence(selectedMode, configData, t);
     setWorkoutSequence(generatedSequence);
     setCurrentScreen('workout'); 
   };
@@ -53,14 +49,20 @@ export default function App() {
     setCurrentScreen('home');
   };
 
-  const handleGoHome = () => {
-    setCurrentScreen('home');
-    setSelectedMode(null);
-    setWorkoutSequence([]);
-  };
-
   const handleEditWorkout = () => {
     setCurrentScreen('config'); 
+  };
+
+  // 3. CREA EL MANEJADOR PARA GUARDAR EL ENTRENAMIENTO
+  const handleFinishWorkout = (elapsedTime: number, totalIntervals: number) => {
+    if (!selectedMode) return;
+    
+    // Asumiendo que tu hook useHistory maneja el id y la fecha internamente
+    addWorkout({
+      mode: selectedMode,
+      elapsedTime,
+      totalIntervals
+    });
   };
 
   // ==========================================
@@ -78,18 +80,20 @@ export default function App() {
       case 'config':
         return selectedMode ? (
           <ConfigView 
-          mode={selectedMode} 
-          onStart={handleStartWorkout}
-          initialData={savedConfig}   />
+            mode={selectedMode} 
+            onStart={handleStartWorkout}
+            initialData={savedConfig}   
+          />
         ) : null;
       case 'workout':
         return (
           <WorkoutView 
-          sequence={workoutSequence} 
-          mode={selectedMode}
-          onCancel={handleCancelWorkout}
-          onEdit={handleEditWorkout} 
-        />
+            mode={selectedMode} 
+            sequence={workoutSequence} 
+            onCancel={handleCancelWorkout}
+            onEdit={handleEditWorkout} 
+            onFinish={handleFinishWorkout} // 4. PÁSALE LA PROP AQUÍ
+          />
         );
       default:
         return <HomeView onSelectMode={handleSelectMode} />;
@@ -104,8 +108,7 @@ export default function App() {
   return (
     <MainLayout 
       activeTab={getActiveTab()} 
-      onNavigate={setCurrentScreen}
-      onGoHome={handleGoHome}
+      onNavigate={(screen) => setCurrentScreen(screen as AppScreen)}
     >
       {renderView()}
     </MainLayout>

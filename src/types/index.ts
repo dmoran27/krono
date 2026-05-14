@@ -76,7 +76,7 @@ export interface ActiveInterval {
   name: string;        
   duration: number;    
   remaining: number;   
-  type: 'work' | 'rest' | 'prep';
+  type: 'work' | 'rest' | 'prep' | 'finished' ;
   unilateral?: 'L' | 'R' | null;
   color?: string;      
   elapsed?: number;  

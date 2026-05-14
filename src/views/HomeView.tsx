@@ -1,5 +1,3 @@
-import React from 'react';
-import MainLayout from '../components/layout/MainLayout';
 import ProtocolCard from '../components/ui/ProtocolCard';
 import { ViewProps, TrainingMode } from '../types';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,7 +5,6 @@ import { useLanguage } from '../context/LanguageContext';
 export default function HomeView({ onSelectMode }: ViewProps) {
   const { t } = useLanguage();
 
-  // Mantenemos tu arreglo original para renderizar la vista móvil de forma eficiente
   const modesConfig: { id: TrainingMode; icon: string; label: string }[] = [
     { id: 'tabata', icon: 'timer', label: t.home?.modes?.tabata || 'TABATA' },
     { id: 'emom', icon: 'update', label: t.home?.modes?.emom || 'EMOM' },
@@ -23,11 +20,16 @@ export default function HomeView({ onSelectMode }: ViewProps) {
           VERSIÓN MÓVIL (Oculta en Desktop)
           ========================================= */}
       <div className="md:hidden flex flex-col w-full pt-4">
-        <div className="mb-8">
-          <p className="font-label-caps text-[10px] font-medium tracking-[0.25em] text-on-surface-variant mb-2 uppercase">
+      <div className="space-y-1 md:space-y-2 border-l-2 md:border-l-4 border-primary pl-4 md:pl-8 mb-4">
+          
+          <h2 className="font-display-lg text-3xl md:text-4xl lg:text-5xl text-primary uppercase font-bold leading-tight md:leading-none">
+            {t.home?.protocol || 'SELECT TRAINING PROTOCOL'}
+          </h2>
+          
+          <p className="font-label-caps text-on-surface-variant text-xs md:text-sm">
             {t.home?.selectProtocol || 'SELECT TRAINING PROTOCOL'}
           </p>
-          <div className="h-[2px] w-8 bg-primary"></div>
+
         </div>
 
         {/* Cuadrícula 2x2 para móvil usando tu lógica de mapeo */}
@@ -49,13 +51,17 @@ export default function HomeView({ onSelectMode }: ViewProps) {
           VERSIÓN DESKTOP (Oculta en Móvil)
           ========================================= */}
       <div className="hidden md:flex flex-col w-full space-y-12">
-        <div className="space-y-2 border-l-4 border-primary pl-8 mb-4">
-          <h2 className="font-display-lg text-5xl text-primary uppercase font-bold italic">
-          {t.home?.protocol || 'SELECT TRAINING PROTOCOL'}
+        {/* Contenedor del título con padding responsive */}
+        <div className="space-y-1 md:space-y-2 border-l-2 md:border-l-4 border-primary pl-4 md:pl-8 mb-4">
+          
+          <h2 className="font-display-lg text-3xl md:text-4xl lg:text-5xl text-primary uppercase font-bold leading-tight md:leading-none">
+            {t.home?.protocol || 'SELECT TRAINING PROTOCOL'}
           </h2>
-          <p className="font-label-caps text-on-surface-variant tracking-[0.25em] text-sm">
-          {t.home?.selectProtocol || 'SELECT TRAINING PROTOCOL'}
+          
+          <p className="font-label-caps text-on-surface-variant text-xs md:text-sm">
+            {t.home?.selectProtocol || 'SELECT TRAINING PROTOCOL'}
           </p>
+
         </div>
 
         <div className="grid grid-cols-4 gap-4">

@@ -7,7 +7,7 @@ export const es: Translations = {
     reboot: "REINICIAR SISTEMA",
   },
   home: {
-    appTitle: "K R O N O",
+    appTitle: "K R O N O S",
     protocol: "PROTOCOLO",
     configure: "Configurar",
     selectProtocol: "SELECCIONA PROTOCOLO DE ENTRENAMIENTO",
@@ -58,29 +58,64 @@ export const es: Translations = {
     rest: "DESCANSO",
     back: "VOLVER",
     edit: "EDITAR WOD",
-    cancel: "CANCELAR"
+    cancel: "CANCELAR",
+    delete: "ELIMINAR",
   },
   workout: {
-    finished: "ENTRENAMIENTO COMPLETADO",
-    timeElapsed: "TIEMPO TOTAL",
-    side: "LADO",
-    left: "IZQUIERDO",
-    right: "DERECHO",
-    currentExercise: "EJERCICIO ACTUAL",
-    next: "SIGUIENTE",
-    resume: "REANUDAR",
-    pause: "PAUSAR",
+    loading: 'CARGANDO SISTEMA...',
+    finished: 'ENTRENAMIENTO COMPLETADO',
+    missionAccomplished: 'MISIÓN CUMPLIDA',
+    timeElapsed: 'TIEMPO TOTAL',
+    currentExercise: 'EJERCICIO ACTUAL',
+    activeRest: 'DESCANSO ACTIVO',
+    rest: 'RECUPERACIÓN',
+    side: 'LADO',
+    left: 'IZQ',
+    leftFull: 'Izquierdo', 
+    preparation: 'PREPARACIÓN',
+    exercise: 'EJERCICIO',
+    right: 'DER',
+    rightFull: 'Derecho', 
+    roundRest: 'DESCANSO DE RONDA',
+    round: 'RONDA',
+    next: 'SIGUIENTE',
+    resume: 'REANUDAR',
+    pause: 'PAUSAR',
+    work: 'A trabajar',
     skip: "SALTAR",
-    prep: "PREPARACIÓN",
-    work: "TRABAJO",
-    rest: "DESCANSO"
-  },
-  
+    prep: "PREP",
+  },  
   footer: {
-    brandName: "KRONO",
+    brandName: "KRONOS",
     copyright: "Todos los derechos reservados",
     version: "Version"
   },
+  settings: {
+    langLabel: "Idioma del sistema",
+    audioGroup: "Preferencias de Audio",
+    voiceLabel: "Anuncios de voz",
+    on: "ON",
+    off: "OFF",
+    beepsLabel: "Señales acústicas",
+    dataGroup: "Gestión de Datos",
+    dataDesc: "Los entrenamientos se guardan en el almacenamiento local de tu navegador. Si borras los datos, perderás tu historial de WODs.",
+    confirmClear: "¿BORRAR TODO EL HISTORIAL?",
+    clearAll: "BORRAR TODO EL HISTORIAL",
+    status: "LISTO PARA USO OFFLINE",
+    subtitle: "Parámetros del sistema",
+    appearanceGroup: "Apariencia y lenguaje",
+    themeLabel: "Tema visual",
+    dark: "MODO OSCURO",
+    light: "MODO CLARO",
+    
+  },
+  history: {
+      subtitle: "Bitácora de rendimiento",
+      clear: "Borrar registros",
+      intervals: "Intervalos",
+      duration: "Tiempo total",
+      noLogs: "No hay registros en el sistema.",
+    },
   protocols: {
     tabataDesc: "Entrenamiento por intervalos de alta intensidad. 20 segundos de trabajo, 10 de descanso. 8 rondas de precisión técnica.",
     emomDesc: "Every Minute on the Minute. Dominio basado en volumen de trabajo.",
@@ -93,6 +128,13 @@ export const es: Translations = {
       intensity: "Intensidad",
       max: "MAX",
     }
+  },
+  meta: {
+    title: 'Kronos | Temporizador Profesional',
+    description: 'Cronómetro profesional para CrossFit y entrenamientos de alta intensidad. Tabata, EMOM, AMRAP y asistencia por voz.',
+    ogTitle: 'Kronos | Temporizador Profesional',
+    ogDescription: 'Entrena al siguiente nivel con asistencia de voz y cronómetros de precisión.',
+    twitterDescription: 'Temporizador de entrenamiento con asistencia de voz para atletas de alto rendimiento.'
   }
   
 };

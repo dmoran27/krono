@@ -154,7 +154,6 @@ export default function TabataForm({ onChange, initialData }: Props) {
                     {/* Contenedor flexible: Columna en móvil, Fila en pantallas grandes */}
                     <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center w-full">
                       
-                      {/* Input toma todo el espacio sobrante */}
                       <input 
                         type="text" 
                         value={exercise.name} 
@@ -163,7 +162,6 @@ export default function TabataForm({ onChange, initialData }: Props) {
                         className="flex-1 bg-transparent border-none font-display text-xl text-on-surface placeholder:text-surface-variant/40 uppercase outline-none w-full focus:ring-0 p-0"
                       />
                       
-                      {/* El RowActionGroup no se aplasta en móviles */}
                       <div className="shrink-0">
                         <RowActionGroup 
                           active={exercise.unilateral} 

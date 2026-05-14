@@ -1,22 +1,37 @@
-# 1. Usamos una imagen ligera de Node.js
-FROM node:20-alpine
-
-# 2. Establecemos el directorio de trabajo dentro del contenedor
+# ==========================================
+# ETAPA 1: Construcción (Builder)
+# ==========================================
+FROM node:20-alpine as builder
 WORKDIR /app
 
-# 3. Copiamos los archivos de definición de dependencias
-# Se copian primero para aprovechar la caché de capas de Docker
+# Instalamos dependencias
 COPY package*.json ./
-
-# 4. Instalamos las dependencias
 RUN npm install
 
-# 5. Copiamos el resto del código del proyecto
+# Copiamos el código y compilamos para producción
 COPY . .
 
-# 6. Exponemos el puerto que usa Vite por defecto
-EXPOSE 5173
+# Recibe el dominio como argumento al construir la imagen
+ARG VITE_APP_DOMAIN
+ENV VITE_APP_DOMAIN=$VITE_APP_DOMAIN
+RUN npm run build
 
-# 7. Comando para iniciar el servidor de desarrollo de Vite
-# Usamos --host para que Vite acepte conexiones externas al contenedor
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+# ==========================================
+# ETAPA 2: Producción (Servidor Web)
+# ==========================================
+FROM nginx:alpine
+
+# Limpiamos los archivos por defecto de Nginx
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copiamos la carpeta 'dist' (resultado del build) desde la Etapa 1
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Copiamos nuestra configuración personalizada de Nginx
+COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Exponemos el puerto 80 estándar de la web
+EXPOSE 80
+
+# Iniciamos Nginx
+CMD ["nginx", "-g", "daemon off;"]

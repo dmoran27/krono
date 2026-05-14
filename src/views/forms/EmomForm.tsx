@@ -17,7 +17,7 @@ export default function EmomForm({ onChange, initialData }: Props) {
   const { t } = useLanguage();
   
   const [preparationTime, setPreparationTime] = useState(initialData?.preparationTime ?? 10);
-  const [workWindow, setWorkWindow] = useState(60); 
+  const [workWindow] = useState(60); 
   const [rounds, setRounds] = useState(initialData?.rounds ?? 10);
   const [exercises, setExercises] = useState<Exercise[]>(initialData?.exercises ??[{ name: '', unilateral: false }]);
 
@@ -74,7 +74,7 @@ export default function EmomForm({ onChange, initialData }: Props) {
               <ListItem 
                 key={exIndex} 
                 index={exIndex} 
-                className="rounded-lg bg-surface border border-outline/20 m-2 p-stack-md mb-stack-sm flex items-center gap-4"
+                
               >
                  <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between w-full">                
                   <input 

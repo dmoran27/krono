@@ -1,26 +1,26 @@
-import { useState } from 'react'; // Error 1: Faltaba el import
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
+import { useSound } from '../context/SoundContext';
+
 
 interface TopBarProps {
-  onGoHome?: () => void;
     activeTab?: 'history' | 'modes' | 'settings'; 
-  onNavigate ?: "";
+  onNavigate?: (screen: string) => void;
 }
 
-export default function TopBar({activeTab, onNavigate, onGoHome }: TopBarProps) {
+export default function TopBar({activeTab, onNavigate }: TopBarProps) {
   const { t, toggleLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
-  const [isMuted, setIsMuted] = useState(false);
-  
-  const toggleSound = () => setIsMuted(!isMuted);
+  const { settings, toggleMasterMute } = useSound();
+  const { voiceEnabled, beepsEnabled } = settings;
 
+  
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-outline-variant px-6 md:px-10 py-4 md:py-6 bg-background/90 backdrop-blur-md sticky top-0 z-50">
       
       <h1 
         className="font-display text-[32px] font-black tracking-tighter text-primary cursor-pointer select-none uppercase" 
-        onClick={onGoHome}
+        onClick={() => onNavigate?.('home')}
       >
         {t.home.appTitle}
       </h1>
@@ -29,16 +29,22 @@ export default function TopBar({activeTab, onNavigate, onGoHome }: TopBarProps) 
       <div className="hidden md:flex flex-1 justify-end gap-8 items-center">
         <nav className="flex items-center gap-10 mr-4">
         <button 
-            onClick={() => onNavigate('home')}
-            className={`text-xs font-bold tracking-[0.2em] hover:text-primary transition-colors uppercase ${activeTab === 'modes' ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant'}`}
+            onClick={() => onNavigate?.('home')}
+            className={`text-xs font-bold tracking-[0.2em] hover:text-primary transition-colors uppercase ${activeTab === 'modes' ? 'text-primary ' : 'text-on-surface-variant'}`}
           >
             {t.nav.timer}
           </button>
           <button 
-            onClick={() => onNavigate('history')}
-            className={`text-xs font-bold tracking-[0.2em] hover:text-primary transition-colors uppercase ${activeTab === 'history' ? 'text-primary border-b-2 border-primary pb-1' : 'text-on-surface-variant'}`}
+            onClick={() => onNavigate?.('history')}
+            className={`text-xs font-bold tracking-[0.2em] hover:text-primary transition-colors uppercase ${activeTab === 'history' ? 'text-primary ' : 'text-on-surface-variant'}`}
           >
             {t.nav.history}
+          </button>
+          <button 
+            onClick={() => onNavigate?.('settings')}
+            className={`text-xs font-bold tracking-[0.2em] hover:text-primary transition-colors uppercase ${activeTab === 'history' ? 'text-primary ' : 'text-on-surface-variant'}`}
+          >
+            {t.nav.settings}
           </button>
           
         </nav>
@@ -58,12 +64,12 @@ export default function TopBar({activeTab, onNavigate, onGoHome }: TopBarProps) 
 
           {/* Control de Sonido */}
           <button
-            onClick={toggleSound} // Error 2: Se llamaba a onToggle en lugar de toggleSound
+            onClick={toggleMasterMute} // Error 2: Se llamaba a onToggle en lugar de toggleSound
             className="flex items-center justify-center w-10 h-10 rounded-lg 
                        text-on-surface-variant hover:text-primary transition-colors active:scale-90"
           >
-            <span className="material-symbols-outlined text-[28px]">
-              {isMuted ? 'volume_off' : 'volume_up'}
+            <span className="material-symbols-outlined">
+              {(voiceEnabled || beepsEnabled) ? 'volume_up' : 'volume_off'}
             </span>
           </button>
 

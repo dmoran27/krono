@@ -1,11 +1,16 @@
-# Krono
+# Kronos
 
-Una Progressive Web App (PWA) minimalista construida con React, diseñada para gestionar intervalos de entrenamiento y marcar el ritmo (Pacer) mediante asistencia de voz. Ideal para rutinas funcionales, levantamientos y entrenamientos de alta intensidad.
+Una **Progressive Web App (PWA)** minimalista y de alto rendimiento construida con **React** y **TypeScript**, diseñada para la gestión de intervalos de alta intensidad (WODs) con asistencia de voz y audio profesional. Ideal para rutinas funcionales, levantamientos y entrenamientos de alta intensidad.
 
 ## Características Principales
 
 *   **Asistencia por Voz Integrada:** Utiliza la Web Speech API nativa para dictar el nombre de los ejercicios, transiciones y conteo de repeticiones sin necesidad de mirar la pantalla.
 *   **Diseño PWA Mobile-First:** Interfaz de alto contraste y "Dark Mode" optimizada para pantallas táctiles, manos sudadas y legibilidad a distancia.
+*   **Arquitectura Robusta:** Código refactorizado bajo estándares estrictos de TypeScript para evitar errores en tiempo de ejecución.
+*   **Configuración Global & UI:**
+    *   **Internacionalización (i18n):** Soporte completo para Inglés y Español.
+    *   **Gestión de Temas:** Modos Claro y Oscuro con persistencia.
+    *   **Controles Granulares:** Activa o desactiva la voz y los sonidos de forma independiente.
 *   **6 Modalidades de Entrenamiento:**
     *   **Tabata / Intervalos:** Ciclos de trabajo y descanso predefinidos.
     *   **EMOM:** (Every Minute on the Minute) Secuencias dinámicas por minuto.
@@ -16,13 +21,14 @@ Una Progressive Web App (PWA) minimalista construida con React, diseñada para g
 
 ## Stack Tecnológico
 
-*   **Frontend:** React, Vite
-*   **Voz:** Web Speech API (Nativa)
-*   **Despliegue:** Docker, Nginx (Alpine)
+*   **Core:** React 18, Vite, TypeScript (Strict Mode).
+*   **Audio:** Web Audio API & Web Speech API.
+*   **Estilos:** Tailwind CSS.
+*   **Infraestructura:** Docker (Multi-stage build), Nginx (Alpine).
 
 ## Despliegue con Docker (Recomendado)
 
-El proyecto está preparado para ser dockerizado, utilizando un contenedor ligero de Nginx para servir los archivos estáticos generados por Vite.
+El proyecto utiliza **Docker Profiles** para separar los entornos.
 
 ### Prerrequisitos
 *   [Docker](https://www.docker.com/) instalado.
@@ -32,13 +38,19 @@ El proyecto está preparado para ser dockerizado, utilizando un contenedor liger
 
 1. Clona el repositorio:
 ```bash
-git clone git@github.com:dmoran27/krono.git
+git clone git@github.com:dmoran27/kronos.git
 ```
 ```bash
-cd krono
+cd kronos
 ```
 
-2. Construye y levanta el contenedor en segundo plano:
+2. Variables de Entorno
+Crea un archivo `.env` en la raíz:
+```env
+PORT_WEB_PROD=8080
+COMPOSE_PROFILES=production 
+
+3. Construye y levanta el contenedor en segundo plano:
 
 ```bash
 docker-compose up -d --build
@@ -47,7 +59,7 @@ docker-compose up -d --build
 3. Accede a la aplicación en tu navegador:
 
 ```bash
-http://localhost:8080
+http://localhost
 ```
 
 4. Para detener el contenedor:
@@ -71,3 +83,13 @@ npm install
 ```bash
 npm run dev
 ```
+
+3. Validar Tipos (Build Check): 
+
+```bash
+npm run build
+```
+
+## Desarrollo Local (Sin Docker)
+
+Consulta el historial de cambios en el [CHANGELOG.md](./CHANGELOG.md).

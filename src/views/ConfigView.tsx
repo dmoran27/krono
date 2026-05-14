@@ -6,17 +6,26 @@ import AmrapForm from './forms/AmrapForm';
 import ForTimeForm from './forms/ForTimeForm';
 import PaceForm from './forms/PaceForm';
 import CustomForm from './forms/CustomForm';
-import { TrainingMode, TabataSettings, EmomSettings, AmrapSettings, ForTimeSettings, PaceSettings, CustomSettings} from '../types';
+import { TrainingMode} from '../types';
 
 interface ConfigViewProps {
   mode: TrainingMode;
   onStart: (configData: any) => void;
-  initialData?: any; // Añadimos esto
+  initialData?: any;
 }
 
 export default function ConfigView({ mode, onStart, initialData }: ConfigViewProps) {
   const { t } = useLanguage();
-  const modeName = t.home.modes[mode] || mode.toUpperCase();
+  // 1. Creamos una variable segura que nunca sea null (usamos 'custom' como fallback)
+  const currentMode = mode || 'custom';
+
+  // 2. Ahora TypeScript sabe que currentMode es un string válido
+  const modeName = t.home.modes[currentMode] || currentMode.toUpperCase();
+
+  // 3. Forzamos la llave dinámica para que TS no se asuste buscando en el objeto de traducciones
+  const descKey = `${currentMode}Desc` as keyof typeof t.protocols;
+  
+  const modeDescription = (t.protocols?.[descKey] as string) || "";
   
   const [currentConfig, setCurrentConfig] = useState<any>(null);
 
@@ -43,13 +52,17 @@ export default function ConfigView({ mode, onStart, initialData }: ConfigViewPro
     <>
       <div className="flex flex-col w-full pb-32">
        
-        <div className="space-y-2 border-l-4 border-primary pl-8 mb-4">
-          <h2 className="font-display-lg text-5xl text-primary uppercase font-bold italic">
-          {t.config?.configuration || 'CONFIG'} {modeName} 
+       
+        <div className="space-y-1 md:space-y-2 border-l-2 md:border-l-4 border-primary pl-4 md:pl-8 mb-4">
+          
+          <h2 className="font-display-lg text-3xl md:text-4xl lg:text-5xl text-primary uppercase font-bold leading-tight md:leading-none">
+            {modeName} 
           </h2>
-          <p className="font-label-caps text-on-surface-variant tracking-[0.25em] text-sm">
-          {t.config?.description || 'Configure high-intensity interval parameters for peak performance.'}
+          
+          <p className="font-label-caps text-on-surface-variant text-xs md:text-sm">
+          {modeDescription} 
           </p>
+
         </div>
 
         {/* Inyección Dinámica del Formulario */}

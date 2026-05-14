@@ -65,7 +65,7 @@ export default function RowActionGroup({
               : 'text-on-surface-variant hover:text-error hover:bg-error/10 active:scale-90'
             }
           `}
-          title={t.common?.delete || 'Delete'}
+          title={t.config?.delete || 'Delete'}
         >
           <span className="material-symbols-outlined text-[20px]" style={{ fontVariationSettings: "'wght' 300" }}>
             delete

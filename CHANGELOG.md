@@ -1,6 +1,38 @@
-# Changelog - Krono
+# Changelog - Kronos
 
 Todos los cambios notables en este proyecto serán documentados en este archivo.
+
+
+# Changelog
+
+Todos los cambios notables de este proyecto se documentarán en este archivo.
+
+## [1.0.0] - 2026-05-14
+
+### Added
+- Soporte PWA (Progressive Web App): Integración de `vite-plugin-pwa` para permitir la instalación de la aplicación en dispositivos móviles y de escritorio.
+- Interfaz de Instalación Enriquecida (Richer Install UI): Configuración de capturas de pantalla dinámicas y soporte de iconos adaptativos.
+- SEO Dinámico y Open Graph: Inyección de meta tags (`<title>`, `description`, `og:image`, `twitter:card`) directamente gestionados desde los archivos de traducción (`es.ts` y `en.ts`).
+- Infraestructura de Producción: Implementación de un entorno dual en Docker utilizando Docker Profiles (`development` y `production`).
+- Variables de Entorno en Build: Soporte para inyectar dinámicamente el dominio (`VITE_APP_DOMAIN`) durante la construcción de la imagen de producción sin quemar rutas en el código.
+- Integración con Nginx: Optimización del despliegue mediante un Dockerfile multi-etapa y configuración personalizada de `nginx.conf` con soporte para enrutamiento SPA.
+- Sistema de Sonido: Integración de un motor de audio de alta fidelidad para los bips del cronómetro y uso de Web Speech API para dictado de voz en tiempo real de los ejercicios.
+- Configuración Global: Creación de la vista de ajustes que incluye:
+  - Soporte Multilingüe: Localización completa en Español e Inglés centralizada.
+  - Gestión de Temas: Modos Claro y Oscuro persistentes.
+  - Controles de Audio: Configuración granular para activar/desactivar síntesis de voz y bips.
+
+### Changed
+- Arquitectura de Tipos: Refactorización profunda de `types.ts` para soportar validaciones estrictas de nulos y expansión de la interfaz `WorkoutInterval`.
+- Lógica de Navegación: Migración de las propiedades de navegación basadas en texto hacia funciones callback fuertemente tipadas.
+
+### Fixed
+- Persistencia del Historial: Corrección del flujo de estado unidireccional en `App.tsx` para inyectar el manejador `onFinish` en `WorkoutView`, garantizando el guardado de los WODs.
+- Cumplimiento Estricto del Manifest: Resolución de conflictos de recorte y dimensiones exactas en imágenes solicitadas por Lighthouse/Chrome DevTools.
+- Cumplimiento Estricto de TypeScript: Resolución de múltiples errores de compilación relacionados con estados y propiedades opcionales.
+- Seguridad contra Nulos (Null-Safety): Implementación de accesos seguros para llaves de traducción dinámicas y modos de entrenamiento en `WorkoutView` y `ConfigView`.
+- Errores de Build: Corrección en las rutas de importación de CSS y soporte para lectura nativa de archivos Markdown mediante `vite-env.d.ts`.
+- UI/UX: Solución a los disparos automáticos de eventos en `TopBar` y desajustes de estado en `BottomNav`.
 
 ## [0.1.6] - 2026-05-13
 

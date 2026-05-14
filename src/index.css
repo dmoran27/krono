@@ -1,49 +1,58 @@
 @import "tailwindcss";
 
-@import "tailwindcss";
-
 @theme {
-  /* ==========================================
-     KRONOS DESIGN SYSTEM
-     ========================================== */
-  
-  /* Colores */
-  --color-primary: #3366cc;
-  --color-on-primary: #ffffff;
-  --color-background: #080808;
-  --color-surface: #131313;
-  --color-on-surface: #e5e2e1;
-  --color-surface-container: #201f1f;
-  --color-surface-container-high: #2a2a2a;
-  --color-on-surface-variant: #c3c6d5;
-  --color-outline-variant: #434653;
-  --color-outline: #8d909e;
+  --color-primary:  var(--primary);
+  --color-on-primary:  var(--on-primary);
+  --color-background:  var(--background);
+  --color-surface:  var(--surface);
+  --color-on-surface:  var(--on-surface);
+  --color-surface-container:  var(--surface-container);
+  --color-surface-container-high:  var(--surface-container-high);
+  --color-on-surface-variant:  var(--on-surface-variant);
+  --color-outline-variant:  var(--outline-variant);
+  --color-outline:  var(--outline);
 
   /* Tipografías */
   --font-body: "Geist", sans-serif;
   --font-display: "Geist", sans-serif;
-  --font-headline: "Geist", sans-serif;
-  --font-label-caps: "JetBrains Mono", monospace;
   --font-label: "JetBrains Mono", monospace;
-  --font-numeric-data: "Geist", sans-serif;
 }
 
 /* ==========================================
-   ESTILOS BASE
+   CONFIGURACIÓN DE TEMAS (VALORES)
    ========================================== */
+:root {
+  --primary: #3366cc;
+  --on-primary: #ffffff;
+  --background: #080808;
+  --surface: #131313;
+  --on-surface: #e5e2e1;
+  --surface-container: #201f1f;
+  --surface-container-high: #2a2a2a;
+  --on-surface-variant: #c3c6d5;
+  --outline-variant: #434653;
+  --outline: #8d909e;
+}
+
+
+.light {
+  --primary: #3366cc; 
+  --on-primary: #201f1f;
+  --background: #f5f5f7; 
+  --surface: #ffffff;    
+  --on-surface: #434343; 
+  --surface-container: #e8e8ed; 
+  --surface-container-high: #e5e5e7;
+  --on-surface-variant: #4a4b4f;
+  --outline: #e5e5e7;           
+  --outline-variant: #e5e5e7;   
+}
+
 @layer base {
   body {
     background-color: var(--color-background);
     color: var(--color-on-surface);
-    font-family: var(--font-body);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* Personalización de la selección de texto */
-  ::selection {
-    background-color: rgba(51, 102, 204, 0.2); /* primary/20 */
-    color: var(--color-on-primary);
+    transition: background-color 0.3s ease, color 0.3s ease; 
   }
 }
 
@@ -61,7 +70,6 @@
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
-  /* Configuración del estilo de línea  */
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 }
 /* Efectos */

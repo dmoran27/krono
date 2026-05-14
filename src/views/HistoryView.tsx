@@ -25,17 +25,20 @@ export default function HistoryView() {
 
   return (
     <div className="w-full flex flex-col flex-1 pb-margin-safe">
+
       
       {/* HEADER KRONOS STYLE */}
-      <header className="mb-8">
-        <h2 className="font-display text-4xl text-on-surface uppercase font-black tracking-tighter">
+
+      <div className="space-y-1 md:space-y-2 border-l-2 md:border-l-4 border-primary pl-4 md:pl-8 mb-4">
+          
+          <h2 className="font-display-lg text-3xl md:text-4xl lg:text-5xl text-primary uppercase font-bold leading-tight md:leading-none">
           {t.nav?.history || 'HISTORIAL'}
-        </h2>
-        <div className="w-12 h-1 bg-primary mt-2 mb-4 shadow-[0_0_10px_rgba(51,102,204,0.5)]"></div>
-        <div className="flex justify-between items-end">
-          <p className="font-label text-on-surface-variant tracking-[0.2em] text-[10px] uppercase font-bold">
-            {t.history?.subtitle || 'ÚLTIMOS 20 ENTRENAMIENTOS'}
+          </h2>
+          <div className="flex justify-between items-end"></div>
+          <p className="font-label-caps text-on-surface-variant text-xs md:text-sm">
+          {t.history?.subtitle || 'ÚLTIMOS 20 ENTRENAMIENTOS'}
           </p>
+      
           {history.length > 0 && (
             <button 
               onClick={clearHistory} 
@@ -46,14 +49,15 @@ export default function HistoryView() {
             </button>
           )}
         </div>
-      </header>
+
+     
 
       {history.length > 0 ? (
         <div className="grid grid-cols-1 gap-4">
           {history.map((log) => (
             <div 
               key={log.id} 
-              className="bg-[#111111] border border-outline-variant/10 rounded-2xl p-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 group hover:border-primary/40 transition-all shadow-md"
+              className=" border border-outline-variant/10 rounded-2xl p-5 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 group hover:border-primary/40 transition-all shadow-md"
             >
               {/* Lado Izquierdo: Fecha y Modo */}
               <div className="space-y-2">
@@ -89,7 +93,7 @@ export default function HistoryView() {
           ))}
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/10 rounded-3xl opacity-60 bg-[#111111] min-h-[300px]">
+        <div className="flex-1 flex flex-col items-center justify-center border-2 border-dashed border-outline-variant/10 rounded-3xl opacity-60  min-h-[300px]">
           <span className="material-symbols-outlined text-[64px] mb-4 text-on-surface-variant/30">history_toggle_off</span>
           <p className="font-label text-xs uppercase tracking-[0.3em] text-on-surface-variant font-bold">
             {t.history?.noLogs || 'SIN REGISTROS'}

@@ -17,7 +17,6 @@ export default function Stepper({
   step = 1, 
   min = 0, 
   suffix = '', 
-  highlighted = false,
   layout = 'full',
   icon
 }: Props) {
@@ -34,7 +33,6 @@ export default function Stepper({
   };
 
   const displayValue = formatValue(value);
-  const borderClass = highlighted ? "border-primary" : "border-outline";
 
   if (isCompact) {
     // =========================================

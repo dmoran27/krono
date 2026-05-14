@@ -1,17 +1,69 @@
-<!doctype html>
-<html lang="en">
-  <head>
+<!DOCTYPE html>
+<html lang="es"> 
+<head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
+    <!-- Título y Descripción -->
+    <title>Kronos | Temporizador Profesional</title>
+    <meta name="description" content="Cronómetro profesional entrenamientos de alta intensidad. Tabata, EMOM, AMRAP y asistencia por voz." />
+    <meta name="author" content="Diana Morán" />
+
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <!-- Meta Tags para iOS (Apple Mobile Web App) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kronos" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Open Graph / Facebook (Para cuando compartas el enlace) -->
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Kronos" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Kronos | Temporizador Profesional" />
+    <meta property="og:description" content="Entrena al siguiente nivel con asistencia de voz y cronómetros de precisión." />
+    <meta property="og:image" content="/og-image.jpg" /> <!-- Imagen de 1200x630px -->
+    <meta property="og:url" content="%VITE_APP_DOMAIN%" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Kronos" />
+    <meta name="twitter:image" content="/og-image.jpg" />
+    <meta name="twitter:description" content="Temporizador de entrenamiento con asistencia de voz para atletas de alto rendimiento." />
+
+    <!-- Soporte para Tema Oscuro en la barra de navegación del móvil -->
+    <meta name="theme-color" content="#3366cc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)" />
+
+    <!-- Preconectores de Fuentes (Optimizados) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fuentes y Símbolos -->
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300..700,0..1&display=swap" rel="stylesheet">
-    <title>Krono</title>
-  </head>
-  <body>
+
+    <!-- Preload de activos críticos -->
+    <link rel="modulepreload" href="/src/main.jsx" />
+</head>
+<body>
     <div id="root"></div>
+    
+    <!-- Script principal -->
     <script type="module" src="/src/main.jsx"></script>
-  </body>
+    
+    <!-- Script para Service Worker (Indispensable para PWA) -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(err => {
+            console.log('SW registration failed: ', err);
+          });
+        });
+      }
+    </script>
+</body>
 </html>
