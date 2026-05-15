@@ -68,7 +68,7 @@ export default function ProtocolCard({
         </div>
         <div className="mt-8 md:mt-0 z-10 relative">
           <h3 className="font-display-lg text-4xl md:text-5xl text-on-background mb-4 font-black uppercase">{title}</h3>
-          <p className="font-body-md text-on-surface-variant mb-8 max-w-sm">
+          <p className="font-body-md text-on-surface-variant mb-8 max-w-sm md:hidden">
             {description}
           </p>
           {stats && (
@@ -104,7 +104,7 @@ export default function ProtocolCard({
           </div>
           <div>
             <h3 className="font-headline-md text-xl md:text-2xl text-on-background font-bold uppercase">{title}</h3>
-            <p className="font-body-md text-on-surface-variant text-sm mt-1">{description}</p>
+            <p className="font-body-md text-on-surface-variant text-sm mt-1 md:hidden">{description}</p>
           </div>
         </div>
         <span className="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform shrink-0">
@@ -124,7 +124,7 @@ export default function ProtocolCard({
           {number}
         </span>
         <h3 className="font-headline-md text-2xl text-on-background mt-2 font-bold uppercase">{title}</h3>
-        <p className="font-body-md text-on-surface-variant mt-2 text-sm">{description}</p>
+        <p className="font-body-md text-on-surface-variant mt-2 text-sm md:hidden">{description}</p>
       </div>
       <div className="mt-6 flex items-center justify-between w-full">
         <span className="material-symbols-outlined text-on-surface-variant">{icon}</span>

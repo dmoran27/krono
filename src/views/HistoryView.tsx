@@ -40,20 +40,21 @@ export default function HistoryView() {
           <h2 className="font-display-lg text-3xl md:text-4xl lg:text-5xl text-primary uppercase font-bold leading-tight md:leading-none">
           {t.nav?.history || 'HISTORIAL'}
           </h2>
-          <div className="flex justify-between items-end"></div>
-          <p className="font-label-caps text-on-surface-variant text-xs md:text-sm">
-          {t.history?.subtitle || 'ÚLTIMOS 20 ENTRENAMIENTOS'}
-          </p>
-      
-          {history.length > 0 && (
-            <button 
-              onClick={clearHistory} 
-              className="text-error/70 hover:text-error text-[10px] font-label uppercase tracking-widest transition-colors flex items-center gap-1 active:scale-95"
-            >
-              <span className="material-symbols-outlined text-[14px]">delete</span>
-              {t.history?.clear || 'BORRAR TODO'}
-            </button>
-          )}
+          <div className="flex justify-between items-end">
+            <p className="font-label-caps text-on-surface-variant text-xs md:text-sm">
+            {t.history?.subtitle || 'ÚLTIMOS 20 ENTRENAMIENTOS'}
+            </p>
+        
+            {history.length > 0 && (
+              <button 
+                onClick={clearHistory} 
+                className="text-error/70 hover:text-error text-[10px] font-label uppercase tracking-widest transition-colors flex items-center gap-1 active:scale-95"
+              >
+                <span className="material-symbols-outlined text-[14px]">delete</span>
+                {t.history?.clear || 'BORRAR TODO'}
+              </button>
+            )}
+          </div>
         </div>
 
       {history.length > 0 ? (

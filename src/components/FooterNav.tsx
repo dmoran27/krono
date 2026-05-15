@@ -16,8 +16,8 @@ export default function FooterNav() {
   }, []);
 
   return (
-    <footer className="hidden md:flex border-t border-outline bg-surface-container-lowest py-8 px-10 mt-auto">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center w-full">
+    <footer className="hidden lg:flex border-t border-outline bg-surface-container-lowest py-8 px-10 mt-auto">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row justify-between items-center w-full">
         
         <div className="flex items-center gap-4">
           <div className="h-px w-8 bg-primary/50"></div>

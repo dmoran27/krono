@@ -152,7 +152,7 @@ export default function TabataForm({ onChange, initialData }: Props) {
                     index={exIndex} 
                   >
                     {/* Contenedor flexible: Columna en móvil, Fila en pantallas grandes */}
-                    <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center w-full">
+                    <div className="flex flex-col xl:flex-row gap-4 items-end lg:items-center justify-end lg:justify-between  w-full">
                       
                       <input 
                         type="text" 
@@ -161,16 +161,17 @@ export default function TabataForm({ onChange, initialData }: Props) {
                         placeholder="EJ: SQUATS"
                         className="flex-1 bg-transparent border-none font-display text-xl text-on-surface placeholder:text-surface-variant/40 uppercase outline-none w-full focus:ring-0 p-0"
                       />
+
+                      <div className="hidden lg:block w-px h-6 bg-outline-variant/30 mx-1"></div>
+
+                      <div className="block lg:hidden w-full h-px bg-outline-variant/10 my-1"></div>
                       
-                      <div className="shrink-0">
                         <RowActionGroup 
                           active={exercise.unilateral} 
                           onToggle={() => toggleUnilateral(exIndex)} 
                           onRemove={() => removeExercise(exIndex)}
                           disableRemove={exercises.length === 1}
-                        />
-                      </div>
-                      
+                        />                      
                     </div>
                   </ListItem>
                 )}

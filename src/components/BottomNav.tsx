@@ -10,7 +10,7 @@ export default function BottomNav({ activeTab, onNavigate  }: BottomNavProps) {
   const { t } = useLanguage();
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-[80px] bg-background/95 backdrop-blur-md border-t border-outline-variant">
+    <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-[80px] bg-background/95 backdrop-blur-md border-t border-outline-variant">
       <button onClick={() => onNavigate?.('home')} className={`flex flex-col items-center justify-center w-full h-full relative ${activeTab === 'timer' ? 'text-primary' : 'text-on-surface-variant'}`}>
         {activeTab === 'modes' && <div className="absolute inset-0 bg-primary/5"></div>}
         <span className="material-symbols-outlined text-[24px]">timer</span>

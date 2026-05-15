@@ -16,7 +16,7 @@ export default function TopBar({activeTab, onNavigate }: TopBarProps) {
 
   
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-outline-variant px-6 md:px-10 py-4 md:py-6 bg-background/90 backdrop-blur-md sticky top-0 z-50">
+    <header className="flex items-center justify-between whitespace-nowrap border-b border-outline-variant px-6 lg:px-10 py-4 lg:py-6 bg-background/90 backdrop-blur-lg sticky top-0 z-50">
       
       <h1 
         className="font-display text-[32px] font-black tracking-tighter text-primary cursor-pointer select-none uppercase" 
@@ -26,7 +26,7 @@ export default function TopBar({activeTab, onNavigate }: TopBarProps) {
       </h1>
 
       {/* NAVEGACIÓN Y ACCIONES (Desktop) */}
-      <div className="hidden md:flex flex-1 justify-end gap-8 items-center">
+      <div className="hidden lg:flex flex-1 justify-end gap-8 items-center">
         <nav className="flex items-center gap-10 mr-4">
         <button 
             onClick={() => onNavigate?.('home')}

@@ -34,7 +34,7 @@ export default function RowActionGroup({
       <button
         onClick={onToggle}
         className={`
-          flex items-center justify-center px-3 py-1.5 border rounded-lg h-6
+          flex items-center justify-center px-3 py-1.5 border rounded-lg
           transition-all duration-200 active:scale-95 cursor-pointer
           ${active 
             ? 'border-primary bg-primary/10 text-primary shadow-[0_0_15px_rgba(51,102,204,0.1)]' 
@@ -42,13 +42,8 @@ export default function RowActionGroup({
           }
         `}
       >
-        <span className={`w-1.5 h-1.5 rounded-full mr-2 transition-all duration-300 ${
-          active 
-            ? 'bg-primary shadow-[0_0_8px_#3366CC]' 
-            : 'bg-outline-variant'
-        }`}></span>
 
-        <span className="font-label text-[10px] font-bold uppercase tracking-widest">
+        <span className="font-label text-[10px] font-bold uppercase tracking-widest whitespace-nowrap">
           {label || t.config?.RowActionGroup || 'UNILATERAL'}
         </span>
       </button>

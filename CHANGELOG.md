@@ -7,6 +7,16 @@ Todos los cambios notables en este proyecto serán documentados en este archivo.
 
 Todos los cambios notables de este proyecto se documentarán en este archivo.
 
+## [1.0.2] - 2026-05-15
+
+### Changed
+- Rediseño completo de la vista `WorkoutView` para mejorar la usabilidad con una sola mano en dispositivos móviles.
+- Se simplificó el indicador de "Siguiente Intervalo" cambiándolo a un texto minimalista y se ocultó condicionalmente el *badge* de fase durante la preparación.
+
+### Fixed
+- Se resolvieron los problemas de alineación en los elementos del listado, implementando las reglas de flexbox correctas para equilibrar el título del ejercicio y los botones de acción en tablets y móviles.
+- Se corrigió el salto de línea y el colapso de altura en el botón de `RowActionGroup` ("Alternar Lados") permitiendo una altura dinámica y aplicando `whitespace-nowrap`.
+
 ## [1.0.1] - 2026-05-14
 
 ### Changed

@@ -74,7 +74,7 @@ export default function PaceForm({ onChange, initialData }: Props) {
                 index={exIndex} 
               >
                 <div className="w-full">
-                 <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between w-full">
+                 <div className="flex flex-col xl:flex-row gap-4 items-end lg:items-center justify-end lg:justify-between  w-full">
                   <input 
                     type="text" 
                     value={exercise.name} 
@@ -82,6 +82,10 @@ export default function PaceForm({ onChange, initialData }: Props) {
                     placeholder="EJ: SQUATS"
                     className="bg-transparent border-none font-title-lg text-title-lg text-on-surface placeholder:text-surface-variant uppercase outline-none w-full focus:ring-0 p-0"
                   />
+
+                  <div className="hidden lg:block w-px h-6 bg-outline-variant/30 mx-1"></div>
+
+                  <div className="block lg:hidden w-full h-px bg-outline-variant/10 my-1"></div>
                   
                   <RowActionGroup 
                     active={exercise.unilateral} 
@@ -90,7 +94,7 @@ export default function PaceForm({ onChange, initialData }: Props) {
                     disableRemove={exercises.length === 1}
                   />
                 </div>
-                 <div className="w-full">
+                 <div className="w-full pt-4 mt-4 border-t border-outline-variant/10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-md mb-stack-lg">
                     <div className="m-1">
                       <Stepper 

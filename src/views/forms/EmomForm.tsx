@@ -76,7 +76,7 @@ export default function EmomForm({ onChange, initialData }: Props) {
                 index={exIndex} 
                 
               >
-                 <div className="flex flex-col xl:flex-row gap-4 items-start xl:items-center justify-between w-full">                
+                 <div className="flex flex-col xl:flex-row gap-4 items-end lg:items-center justify-end lg:justify-between  w-full">                
                   <input 
                     type="text" 
                     value={exercise.name} 
@@ -84,6 +84,10 @@ export default function EmomForm({ onChange, initialData }: Props) {
                     placeholder="EJ: SQUATS"
                     className="bg-transparent border-none font-title-lg text-title-lg text-on-surface placeholder:text-surface-variant uppercase outline-none w-full focus:ring-0 p-0"
                   />
+
+                  <div className="hidden lg:block w-px h-6 bg-outline-variant/30 mx-1"></div>
+
+                  <div className="block lg:hidden w-full h-px bg-outline-variant/10 my-1"></div>
                   
                   <RowActionGroup 
                     active={exercise.unilateral} 

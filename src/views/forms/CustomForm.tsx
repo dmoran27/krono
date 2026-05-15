@@ -121,11 +121,11 @@ export default function CustomForm({ onChange, initialData }: Props) {
                       </button>
                     </div>
 
-                    <div className="hidden sm:block w-px h-6 bg-outline-variant/30 mx-1"></div>
+                    <div className="hidden md:block w-px h-6 bg-outline-variant/30 mx-1"></div>
 
-                    <div className="block sm:hidden w-full h-px bg-outline-variant/10 my-1"></div>
+                    <div className="block md:hidden w-full h-px bg-outline-variant/10 my-1"></div>
 
-                    <div className="flex items-center justify-end w-full sm:w-auto gap-2">
+                    <div className="flex flex-col xl:flex-row gap-4 items-end lg:items-center justify-end lg:justify-between   w-full">
                       {interval.type === 'work' ? (
                         <RowActionGroup 
                           active={interval.unilateral || false} 
